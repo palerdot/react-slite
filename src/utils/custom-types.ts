@@ -141,21 +141,6 @@ export type ParagraphElement = {
   children: Descendant[]
 }
 
-interface BoldMark extends CustomText {
-  type: Format
-  bold: true
-}
-
-interface ItalicMark extends CustomText {
-  type: Format
-  italic: true
-}
-
-interface CodeMark extends CustomText {
-  type: Format
-  code: true
-}
-
 type CustomElement =
   | BlockQuoteElement
   | BulletedListElement

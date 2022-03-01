@@ -3,7 +3,6 @@ import {
   Slate,
   Editable,
   withReact,
-  useSlate,
   RenderElementProps,
   RenderLeafProps,
 } from 'slate-react'
@@ -23,10 +22,10 @@ import {
   BulletedListElement,
   ElementType,
   HeadingType,
-  Leaf,
+  Leaf as LeafType,
   Mark,
 } from './utils/custom-types'
-import { toggleMark } from './components/'
+import { toggleMark, Toolbars } from './components/'
 
 const HOTKEYS: { [key: string]: keyof Mark } = {
   'mod+b': 'bold',
@@ -57,13 +56,131 @@ function isValidShortcutType(type: string): type is ShortcutKey {
 const SliteEditor = () => {
   const [value, setValue] = useState<Descendant[]>(initialValue)
   const renderElement = useCallback((props) => <Element {...props} />, [])
-  const renderLeaf = useCallback((props) => <Leaf {...props} />, [])
+  const renderLeaf = useCallback((props) => <Leaf as LeafType {...props} />, [])
   const editor = useMemo(
     () => withShortcuts(withReact(withHistory(createEditor()))),
     []
   )
   return (
     <Slate editor={editor} value={value} onChange={(value) => setValue(value)}>
+      <div>
+        <Toolbars.Bold>
+          {({ isActive, onMouseDown }) => (
+            <button
+              style={{
+                background: isActive ? 'green' : 'blue',
+              }}
+              onMouseDown={onMouseDown}
+            >
+              {'Bold'}
+            </button>
+          )}
+        </Toolbars.Bold>
+
+        <Toolbars.Italic>
+          {({ isActive, onMouseDown }) => (
+            <button
+              style={{
+                background: isActive ? 'green' : 'blue',
+              }}
+              onMouseDown={onMouseDown}
+            >
+              {'Italic'}
+            </button>
+          )}
+        </Toolbars.Italic>
+
+        <Toolbars.Code>
+          {({ isActive, onMouseDown }) => (
+            <button
+              style={{
+                background: isActive ? 'green' : 'blue',
+              }}
+              onMouseDown={onMouseDown}
+            >
+              {'Code'}
+            </button>
+          )}
+        </Toolbars.Code>
+
+        <Toolbars.HeadingOne>
+          {({ isActive, onMouseDown }) => (
+            <button
+              style={{
+                background: isActive ? 'green' : 'blue',
+              }}
+              onMouseDown={onMouseDown}
+            >
+              {'H1'}
+            </button>
+          )}
+        </Toolbars.HeadingOne>
+
+        <Toolbars.HeadingTwo>
+          {({ isActive, onMouseDown }) => (
+            <button
+              style={{
+                background: isActive ? 'green' : 'blue',
+              }}
+              onMouseDown={onMouseDown}
+            >
+              {'H2'}
+            </button>
+          )}
+        </Toolbars.HeadingTwo>
+
+        <Toolbars.HeadingThree>
+          {({ isActive, onMouseDown }) => (
+            <button
+              style={{
+                background: isActive ? 'green' : 'blue',
+              }}
+              onMouseDown={onMouseDown}
+            >
+              {'H3'}
+            </button>
+          )}
+        </Toolbars.HeadingThree>
+
+        <Toolbars.BlockQuote>
+          {({ isActive, onMouseDown }) => (
+            <button
+              style={{
+                background: isActive ? 'green' : 'blue',
+              }}
+              onMouseDown={onMouseDown}
+            >
+              {'|>'}
+            </button>
+          )}
+        </Toolbars.BlockQuote>
+
+        <Toolbars.NumberedList>
+          {({ isActive, onMouseDown }) => (
+            <button
+              style={{
+                background: isActive ? 'green' : 'blue',
+              }}
+              onMouseDown={onMouseDown}
+            >
+              {'1)'}
+            </button>
+          )}
+        </Toolbars.NumberedList>
+
+        <Toolbars.BulletedList>
+          {({ isActive, onMouseDown }) => (
+            <button
+              style={{
+                background: isActive ? 'green' : 'blue',
+              }}
+              onMouseDown={onMouseDown}
+            >
+              {'-'}
+            </button>
+          )}
+        </Toolbars.BulletedList>
+      </div>
       <Editable
         renderElement={renderElement}
         renderLeaf={renderLeaf}
@@ -178,7 +295,7 @@ const withShortcuts = (editor: Editor) => {
 
 interface ElementProps extends RenderElementProps {}
 interface LeafProps extends RenderLeafProps {
-  leaf: Leaf
+  leaf: LeafType
 }
 
 const Element = ({ attributes, children, element }: ElementProps) => {
@@ -256,5 +373,7 @@ const initialValue: Descendant[] = [
     ],
   },
 ]
+
+export { Toolbars }
 
 export default SliteEditor

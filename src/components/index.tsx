@@ -1,8 +1,14 @@
-import React from 'react'
+import React, { MouseEvent, useCallback } from 'react'
 import { Transforms, Editor, Element as SlateElement } from 'slate'
 import { useSlate } from 'slate-react'
 
-import { Mark, ElementType, FormatType, Format } from '../utils/custom-types'
+import {
+  Mark,
+  ElementType,
+  FormatType,
+  Format,
+  HeadingType,
+} from '../utils/custom-types'
 
 const LIST_TYPES = [FormatType.NumberedList, FormatType.BulletList]
 type ListType = typeof FormatType.NumberedList | typeof FormatType.BulletList
@@ -69,62 +75,124 @@ const isMarkActive = (editor: Editor, format: keyof Mark) => {
   return marks ? marks[format] === true : false
 }
 
+type ToolbarChildrenProps = {
+  isActive: boolean
+  onMouseDown: (event: MouseEvent) => void
+}
+
+type ToolbarChildren = ({
+  isActive,
+  onMouseDown,
+}: ToolbarChildrenProps) => React.ReactElement
+
+type ToolbarProps = {
+  children: ToolbarChildren
+}
+
 type ButtonProps = {
   format: Format
-  icon?: string
-  text?: string
+  children: ToolbarChildren
 }
 
 interface MarkButtonProps {
   format: keyof Mark
-  icon?: string
-  text?: string
+  children: ToolbarChildren
 }
 
-export const BlockButton = ({ format, icon, text }: ButtonProps) => {
+export const BlockButton = ({ format, children }: ButtonProps) => {
   const editor = useSlate()
   const isActive = isBlockActive(editor, format)
-  return (
-    <button
-      style={
-        isActive
-          ? {
-              background: 'red',
-            }
-          : {
-              background: 'green',
-            }
-      }
-      onMouseDown={(event) => {
-        event.preventDefault()
-        toggleBlock(editor, format)
-      }}
-    >
-      <span>{text}</span>
-    </button>
+
+  const onMouseDown = useCallback(
+    (event: MouseEvent) => {
+      event.preventDefault()
+      toggleBlock(editor, format)
+    },
+    [editor]
   )
+
+  return children({
+    isActive,
+    onMouseDown,
+  })
 }
 
-export const MarkButton = ({ format, icon, text }: MarkButtonProps) => {
+export const MarkButton = ({ format, children }: MarkButtonProps) => {
   const editor = useSlate()
   const isActive = isMarkActive(editor, format)
-  return (
-    <button
-      style={
-        isActive
-          ? {
-              background: 'red',
-            }
-          : {
-              background: 'green',
-            }
-      }
-      onMouseDown={(event) => {
-        event.preventDefault()
-        toggleMark(editor, format)
-      }}
-    >
-      <span>{text}</span>
-    </button>
+
+  const onMouseDown = useCallback(
+    (event: MouseEvent) => {
+      event.preventDefault()
+      toggleMark(editor, format)
+    },
+    [editor]
   )
+  return children({
+    isActive,
+    onMouseDown,
+  })
+}
+
+function BoldButton({ children }: ToolbarProps) {
+  return <MarkButton format={'bold'}>{children}</MarkButton>
+}
+
+function ItalicButton({ children }: ToolbarProps) {
+  return <MarkButton format={'italic'}>{children}</MarkButton>
+}
+
+function CodeButton({ children }: ToolbarProps) {
+  return <MarkButton format={'code'}>{children}</MarkButton>
+}
+
+function HeadingOneButton({ children }: ToolbarProps) {
+  return <BlockButton format={HeadingType.One}>{children}</BlockButton>
+}
+
+function HeadingTwoButton({ children }: ToolbarProps) {
+  return <BlockButton format={HeadingType.Two}>{children}</BlockButton>
+}
+
+function HeadingThreeButton({ children }: ToolbarProps) {
+  return <BlockButton format={HeadingType.Three}>{children}</BlockButton>
+}
+
+function HeadingFourButton({ children }: ToolbarProps) {
+  return <BlockButton format={HeadingType.Four}>{children}</BlockButton>
+}
+
+function HeadingFiveButton({ children }: ToolbarProps) {
+  return <BlockButton format={HeadingType.Five}>{children}</BlockButton>
+}
+
+function HeadingSixButton({ children }: ToolbarProps) {
+  return <BlockButton format={HeadingType.Six}>{children}</BlockButton>
+}
+
+function BlockQuoteButton({ children }: ToolbarProps) {
+  return <BlockButton format={FormatType.BlockQuote}>{children}</BlockButton>
+}
+
+function NumberedListButton({ children }: ToolbarProps) {
+  return <BlockButton format={FormatType.NumberedList}>{children}</BlockButton>
+}
+
+function BulletedListButton({ children }: ToolbarProps) {
+  return <BlockButton format={FormatType.BulletList}>{children}</BlockButton>
+}
+
+export const Toolbars = {
+  Bold: BoldButton,
+  Italic: ItalicButton,
+  Code: CodeButton,
+  HeadingOne: HeadingOneButton,
+  HeadingTwo: HeadingTwoButton,
+  HeadingThree: HeadingThreeButton,
+  HeadingFour: HeadingFourButton,
+  HeadingFive: HeadingFiveButton,
+  HeadingSix: HeadingSixButton,
+  BlockQuote: BlockQuoteButton,
+  NumberedList: NumberedListButton,
+  BulletedList: BulletedListButton,
 }
