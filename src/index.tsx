@@ -25,7 +25,7 @@ import {
   Leaf as LeafType,
   Mark,
 } from './utils/custom-types'
-import { toggleMark, Toolbars, isMarkActive } from './components/'
+import { toggleMark, Toolbars } from './components/'
 import { handleCodeBlockHighlight, CodeStatus } from './utils/'
 
 const HOTKEYS: { [key: string]: keyof Mark } = {
@@ -120,6 +120,19 @@ const SliteEditor = () => {
             </button>
           )}
         </Toolbars.Code>
+
+        <Toolbars.CodeBlock>
+          {({ isActive, onMouseDown }) => (
+            <button
+              style={{
+                background: isActive ? 'green' : 'blue',
+              }}
+              onMouseDown={onMouseDown}
+            >
+              {'</>'}
+            </button>
+          )}
+        </Toolbars.CodeBlock>
 
         <Toolbars.HeadingOne>
           {({ isActive, onMouseDown }) => (

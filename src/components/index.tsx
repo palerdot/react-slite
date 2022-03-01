@@ -146,6 +146,10 @@ function CodeButton({ children }: ToolbarProps) {
   return <MarkButton format={'code'}>{children}</MarkButton>
 }
 
+function CodeBlockButton({ children }: ToolbarProps) {
+  return <BlockButton format={FormatType.CodeBlock}>{children}</BlockButton>
+}
+
 function HeadingOneButton({ children }: ToolbarProps) {
   return <BlockButton format={HeadingType.One}>{children}</BlockButton>
 }
@@ -186,6 +190,7 @@ export const Toolbars = {
   Bold: BoldButton,
   Italic: ItalicButton,
   Code: CodeButton,
+  CodeBlock: CodeBlockButton,
   HeadingOne: HeadingOneButton,
   HeadingTwo: HeadingTwoButton,
   HeadingThree: HeadingThreeButton,
