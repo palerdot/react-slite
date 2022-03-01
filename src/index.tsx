@@ -6,53 +6,23 @@ import {
   RenderElementProps,
   RenderLeafProps,
 } from 'slate-react'
-import {
-  Editor,
-  Transforms,
-  Range,
-  Point,
-  createEditor,
-  Element as SlateElement,
-  Descendant,
-} from 'slate'
+import { createEditor, Descendant } from 'slate'
 import { withHistory } from 'slate-history'
 import isHotkey from 'is-hotkey'
 
 import {
-  BulletedListElement,
   ElementType,
   HeadingType,
   Leaf as LeafType,
   Mark,
 } from './utils/custom-types'
 import { toggleMark, Toolbars } from './components/'
-import { handleCodeBlockHighlight, CodeStatus } from './utils/'
+import { handleCodeBlockHighlight, CodeStatus, withShortcuts } from './utils/'
 
 const HOTKEYS: { [key: string]: keyof Mark } = {
   'mod+b': 'bold',
   'mod+i': 'italic',
   'mod+`': 'code',
-}
-
-const SHORTCUTS = {
-  '*': ElementType.ListItem,
-  '-': ElementType.ListItem,
-  '+': ElementType.ListItem,
-  '>': ElementType.BlockQuote,
-  '#': HeadingType.One,
-  '##': HeadingType.Two,
-  '###': HeadingType.Three,
-  '####': HeadingType.Four,
-  '#####': HeadingType.Five,
-  '######': HeadingType.Six,
-  '{{{': ElementType.CodeBlock,
-}
-
-type ShortcutKey = keyof typeof SHORTCUTS
-
-// type predicate to check if string is of valid shortcut type
-function isValidShortcutType(type: string): type is ShortcutKey {
-  return Object.keys(SHORTCUTS).includes(type)
 }
 
 const SliteEditor = () => {
@@ -233,98 +203,6 @@ const SliteEditor = () => {
       />
     </Slate>
   )
-}
-
-const withShortcuts = (editor: Editor) => {
-  const { deleteBackward, insertText } = editor
-
-  editor.insertText = (text) => {
-    const { selection } = editor
-
-    if (text === ' ' && selection && Range.isCollapsed(selection)) {
-      const { anchor } = selection
-      const block = Editor.above(editor, {
-        match: (n) => Editor.isBlock(editor, n),
-      })
-      const path = block ? block[1] : []
-      const start = Editor.start(editor, path)
-      const range = { anchor, focus: start }
-
-      const beforeText = Editor.string(editor, range)
-
-      if (isValidShortcutType(beforeText)) {
-        const type = SHORTCUTS[beforeText]
-        Transforms.select(editor, range)
-        Transforms.delete(editor)
-        const newProperties: Partial<SlateElement> = {
-          type,
-        }
-        Transforms.setNodes<SlateElement>(editor, newProperties, {
-          match: (n) => Editor.isBlock(editor, n),
-        })
-
-        if (type === 'list-item') {
-          const list: BulletedListElement = {
-            type: ElementType.BulletList,
-            children: [],
-          }
-          Transforms.wrapNodes(editor, list, {
-            match: (n) =>
-              !Editor.isEditor(n) &&
-              SlateElement.isElement(n) &&
-              n.type === 'list-item',
-          })
-        }
-
-        return
-      }
-    }
-
-    insertText(text)
-  }
-
-  editor.deleteBackward = (...args) => {
-    const { selection } = editor
-
-    if (selection && Range.isCollapsed(selection)) {
-      const match = Editor.above(editor, {
-        match: (n) => Editor.isBlock(editor, n),
-      })
-
-      if (match) {
-        const [block, path] = match
-        const start = Editor.start(editor, path)
-
-        if (
-          !Editor.isEditor(block) &&
-          SlateElement.isElement(block) &&
-          block.type !== 'paragraph' &&
-          Point.equals(selection.anchor, start)
-        ) {
-          const newProperties: Partial<SlateElement> = {
-            type: ElementType.Paragraph,
-          }
-          Transforms.setNodes(editor, newProperties)
-
-          if (block.type === 'list-item') {
-            Transforms.unwrapNodes(editor, {
-              match: (n) =>
-                !Editor.isEditor(n) &&
-                SlateElement.isElement(n) &&
-                n.type === 'bulleted-list',
-              split: true,
-            })
-          }
-
-          return
-        }
-      }
-
-      deleteBackward(...args)
-    }
-  }
-
-  return editor
 }
 
 interface ElementProps extends RenderElementProps {}

@@ -1,5 +1,11 @@
 import React, { KeyboardEvent } from 'react'
-import { Editor } from 'slate'
+import {
+  Editor,
+  Range,
+  Transforms,
+  Point,
+  Element as SlateElement,
+} from 'slate'
 
 import {
   toggleMark,
@@ -7,13 +13,17 @@ import {
   toggleBlock,
   isBlockActive,
 } from '../components'
-import { FormatType } from '../utils/custom-types'
+import {
+  FormatType,
+  BulletedListElement,
+  ElementType,
+  HeadingType,
+} from './custom-types'
 
 // tracks status of code
 // None: No code block
 // Inline: Inline code block active
 // Block: Block code block active
-
 export enum CodeStatus {
   None,
   Inline,
@@ -113,4 +123,118 @@ export function handleCodeBlockHighlight({
     // do not proceed
     return
   }
+}
+
+export const SHORTCUTS = {
+  '*': ElementType.ListItem,
+  '-': ElementType.ListItem,
+  '+': ElementType.ListItem,
+  '>': ElementType.BlockQuote,
+  '#': HeadingType.One,
+  '##': HeadingType.Two,
+  '###': HeadingType.Three,
+  '####': HeadingType.Four,
+  '#####': HeadingType.Five,
+  '######': HeadingType.Six,
+  '{{{': ElementType.CodeBlock,
+}
+
+export type ShortcutKey = keyof typeof SHORTCUTS
+
+// type predicate to check if string is of valid shortcut type
+function isValidShortcutType(type: string): type is ShortcutKey {
+  return Object.keys(SHORTCUTS).includes(type)
+}
+
+// withShortcuts for wiring shortcuts
+export const withShortcuts = (editor: Editor) => {
+  const { deleteBackward, insertText } = editor
+
+  editor.insertText = (text) => {
+    const { selection } = editor
+
+    if (text === ' ' && selection && Range.isCollapsed(selection)) {
+      const { anchor } = selection
+      const block = Editor.above(editor, {
+        match: (n) => Editor.isBlock(editor, n),
+      })
+      const path = block ? block[1] : []
+      const start = Editor.start(editor, path)
+      const range = { anchor, focus: start }
+
+      const beforeText = Editor.string(editor, range)
+
+      if (isValidShortcutType(beforeText)) {
+        const type = SHORTCUTS[beforeText]
+        Transforms.select(editor, range)
+        Transforms.delete(editor)
+        const newProperties: Partial<SlateElement> = {
+          type,
+        }
+        Transforms.setNodes<SlateElement>(editor, newProperties, {
+          match: (n) => Editor.isBlock(editor, n),
+        })
+
+        if (type === 'list-item') {
+          const list: BulletedListElement = {
+            type: ElementType.BulletList,
+            children: [],
+          }
+          Transforms.wrapNodes(editor, list, {
+            match: (n) =>
+              !Editor.isEditor(n) &&
+              SlateElement.isElement(n) &&
+              n.type === 'list-item',
+          })
+        }
+
+        return
+      }
+    }
+
+    insertText(text)
+  }
+
+  editor.deleteBackward = (...args) => {
+    const { selection } = editor
+
+    if (selection && Range.isCollapsed(selection)) {
+      const match = Editor.above(editor, {
+        match: (n) => Editor.isBlock(editor, n),
+      })
+
+      if (match) {
+        const [block, path] = match
+        const start = Editor.start(editor, path)
+
+        if (
+          !Editor.isEditor(block) &&
+          SlateElement.isElement(block) &&
+          block.type !== 'paragraph' &&
+          Point.equals(selection.anchor, start)
+        ) {
+          const newProperties: Partial<SlateElement> = {
+            type: ElementType.Paragraph,
+          }
+          Transforms.setNodes(editor, newProperties)
+
+          if (block.type === 'list-item') {
+            Transforms.unwrapNodes(editor, {
+              match: (n) =>
+                !Editor.isEditor(n) &&
+                SlateElement.isElement(n) &&
+                n.type === 'bulleted-list',
+              split: true,
+            })
+          }
+
+          return
+        }
+      }
+
+      deleteBackward(...args)
+    }
+  }
+
+  return editor
 }
