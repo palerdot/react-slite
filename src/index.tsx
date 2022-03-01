@@ -26,6 +26,7 @@ import {
   Mark,
 } from './utils/custom-types'
 import { toggleMark, Toolbars, isMarkActive } from './components/'
+import { handleCodeBlockHighlight, CodeStatus } from './utils/'
 
 const HOTKEYS: { [key: string]: keyof Mark } = {
   'mod+b': 'bold',
@@ -44,6 +45,7 @@ const SHORTCUTS = {
   '####': HeadingType.Four,
   '#####': HeadingType.Five,
   '######': HeadingType.Six,
+  '{{{': ElementType.CodeBlock,
 }
 
 type ShortcutKey = keyof typeof SHORTCUTS
@@ -64,66 +66,17 @@ const SliteEditor = () => {
 
   // '``' Double backtick for inline code mark
   // enables and disabled double backtick shortcut
-  const [activeInlineCode, setInlineCodeStatus] = useState<boolean>(false)
+  const [codeStatus, setCodeStatus] = useState<CodeStatus>(CodeStatus.None)
   const handleInlineCode = useCallback(
     (event: KeyboardEvent<HTMLElement>) => {
-      // clearing operation: If -> (right arrow) key is pressed when
-      // inline code mark is active, we have to clear it and move to next word
-
-      // const isRightArrowKey = event.which === 39
-      // if (isRightArrowKey && isMarkActive(editor, 'code')) {
-      //   toggleMark(editor, 'code')
-      //   // insert a plain text
-      //   editor.insertText(' ')
-      //   // do not proceed
-      //   return
-      // }
-
-      // handle only '`' (Code: 192)
-      const isBackQuote = event.which === 192
-
-      // handling Ctrl + ~ (bug in is-hotkey)
-      // ref: https://github.com/ianstormtaylor/is-hotkey/issues/37
-      if (event.ctrlKey && isBackQuote) {
-        toggleMark(editor, 'code')
-        // do not proceed
-        return
-      }
-
-      // if not backtick do not proceed
-      if (!isBackQuote) {
-        // do not proceed
-        return
-      }
-
-      // if inline mark is already enabled do not proceed
-      if (isMarkActive(editor, 'code')) {
-        // do not proceed
-        return
-      }
-
-      // case 1: first backtick is pressed
-      if (!activeInlineCode) {
-        // set inline code mark as active
-        setInlineCodeStatus(true)
-        // do not proceed
-        return
-      }
-
-      if (activeInlineCode) {
-        // second backtick is pressed; enable inline code
-        editor.deleteBackward('character')
-        toggleMark(editor, 'code')
-        editor.insertText('')
-
-        setInlineCodeStatus(false)
-        // remove two backticks
-        console.log('porumai ... enabling inline code block !!!')
-        // do not proceed
-        return
-      }
+      handleCodeBlockHighlight({
+        editor,
+        event,
+        codeStatus,
+        setCodeStatus,
+      })
     },
-    [editor, activeInlineCode]
+    [editor, codeStatus, setCodeStatus]
   )
 
   return (
@@ -386,6 +339,12 @@ const Element = ({ attributes, children, element }: ElementProps) => {
       return <h6 {...attributes}>{children}</h6>
     case 'list-item':
       return <li {...attributes}>{children}</li>
+    case 'code-block':
+      return (
+        <pre className={'codeblock'}>
+          <code {...attributes}>{children}</code>
+        </pre>
+      )
     default:
       return <p {...attributes}>{children}</p>
   }

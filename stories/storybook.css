@@ -12,3 +12,10 @@ blockquote {
     background-color: #eee;
     padding: 3px;
   }
+
+pre.codeblock {
+    font-family: monospace;
+    background-color: #eee;
+    margin: 0;
+    padding: 2px;
+}

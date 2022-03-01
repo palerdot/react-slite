@@ -24,6 +24,7 @@ export const FormatType = {
   Button: 'button',
   Mention: 'mention',
   Paragraph: 'paragraph',
+  CodeBlock: 'code-block',
   // Marks
   // Bold: 'bold',
   // Italic: 'italic',
@@ -141,6 +142,11 @@ export type ParagraphElement = {
   children: Descendant[]
 }
 
+export type CodeBlockElement = {
+  type: typeof ElementType.CodeBlock
+  children: Descendant[]
+}
+
 type CustomElement =
   | BlockQuoteElement
   | BulletedListElement
@@ -154,6 +160,7 @@ type CustomElement =
   | ListItemElement
   | MentionElement
   | ParagraphElement
+  | CodeBlockElement
 
 export type CustomText = {
   bold?: boolean
