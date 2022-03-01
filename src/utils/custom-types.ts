@@ -3,7 +3,7 @@ import { ReactEditor } from 'slate-react'
 import { HistoryEditor } from 'slate-history'
 
 export const HeadingType = {
-  Default: 'heading',
+  // Default: 'heading',
   One: 'heading-one',
   Two: 'heading-two',
   Three: 'heading-three',
@@ -12,24 +12,41 @@ export const HeadingType = {
   Six: 'heading-six',
 } as const
 
-export const ElementType = {
+export const FormatType = {
   BlockQuote: 'block-quote',
   BulletList: 'bulleted-list',
+  NumberedList: 'numbered-list',
   CheckListItem: 'check-list-item',
   ListItem: 'list-item',
   EditableVoid: 'editable-void',
-  Heading: HeadingType,
   Image: 'image',
   Link: 'link',
   Button: 'button',
   Mention: 'mention',
   Paragraph: 'paragraph',
-  Table: 'table',
-  TableCell: 'table-cell',
-  TableRow: 'table-row',
-  Title: 'title',
-  Video: 'video',
+  // Marks
+  // Bold: 'bold',
+  // Italic: 'italic',
+  // Code: 'code',
 } as const
+
+export const ElementType = {
+  ...FormatType,
+  ...HeadingType,
+}
+
+// ref: https://stackoverflow.com/a/60148768/1410291
+export type Format = typeof ElementType[keyof typeof ElementType]
+
+export type Mark = {
+  bold?: boolean
+  italic?: boolean
+  code?: boolean
+}
+
+export interface Leaf extends Mark {
+  text: string
+}
 
 export type BlockQuoteElement = {
   type: typeof ElementType.BlockQuote
@@ -38,6 +55,11 @@ export type BlockQuoteElement = {
 
 export type BulletedListElement = {
   type: typeof ElementType.BulletList
+  children: Descendant[]
+}
+
+export type NumberedListElement = {
+  type: typeof ElementType.NumberedList
   children: Descendant[]
 }
 
@@ -78,7 +100,7 @@ export type HeadingSixElement = {
 }
 
 export type HeadingElement =
-  | { type: typeof HeadingType.Default; children: Descendant[] }
+  // | { type: typeof HeadingType.Default; children: Descendant[] }
   | HeadingOneElement
   | HeadingTwoElement
   | HeadingThreeElement
@@ -119,35 +141,25 @@ export type ParagraphElement = {
   children: Descendant[]
 }
 
-export type TableCellElement = {
-  type: typeof ElementType.TableCell
-  children: CustomText[]
+interface BoldMark extends CustomText {
+  type: Format
+  bold: true
 }
 
-export type TableRowElement = {
-  type: typeof ElementType.TableRow
-  children: TableCellElement[]
+interface ItalicMark extends CustomText {
+  type: Format
+  italic: true
 }
 
-export type TableElement = {
-  type: typeof ElementType.Table
-  children: TableRowElement[]
-}
-
-export type TitleElement = {
-  type: typeof ElementType.Title
-  children: Descendant[]
-}
-
-export type VideoElement = {
-  type: typeof ElementType.Video
-  url: string
-  children: EmptyText[]
+interface CodeMark extends CustomText {
+  type: Format
+  code: true
 }
 
 type CustomElement =
   | BlockQuoteElement
   | BulletedListElement
+  | NumberedListElement
   | CheckListItemElement
   | EditableVoidElement
   | HeadingElement
@@ -157,11 +169,6 @@ type CustomElement =
   | ListItemElement
   | MentionElement
   | ParagraphElement
-  | TableElement
-  | TableRowElement
-  | TableCellElement
-  | TitleElement
-  | VideoElement
 
 export type CustomText = {
   bold?: boolean

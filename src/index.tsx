@@ -1,5 +1,12 @@
 import React, { useState, useCallback, useMemo } from 'react'
-import { Slate, Editable, withReact, RenderElementProps } from 'slate-react'
+import {
+  Slate,
+  Editable,
+  withReact,
+  useSlate,
+  RenderElementProps,
+  RenderLeafProps,
+} from 'slate-react'
 import {
   Editor,
   Transforms,
@@ -10,11 +17,22 @@ import {
   Descendant,
 } from 'slate'
 import { withHistory } from 'slate-history'
+import isHotkey from 'is-hotkey'
+
 import {
   BulletedListElement,
   ElementType,
   HeadingType,
+  Leaf,
+  Mark,
 } from './utils/custom-types'
+import { toggleMark } from './components/'
+
+const HOTKEYS: { [key: string]: keyof Mark } = {
+  'mod+b': 'bold',
+  'mod+i': 'italic',
+  '``': 'code',
+}
 
 const SHORTCUTS = {
   '*': ElementType.ListItem,
@@ -36,9 +54,10 @@ function isValidShortcutType(type: string): type is ShortcutKey {
   return Object.keys(SHORTCUTS).includes(type)
 }
 
-const MarkdownShortcutsExample = () => {
+const SliteEditor = () => {
   const [value, setValue] = useState<Descendant[]>(initialValue)
   const renderElement = useCallback((props) => <Element {...props} />, [])
+  const renderLeaf = useCallback((props) => <Leaf {...props} />, [])
   const editor = useMemo(
     () => withShortcuts(withReact(withHistory(createEditor()))),
     []
@@ -47,9 +66,19 @@ const MarkdownShortcutsExample = () => {
     <Slate editor={editor} value={value} onChange={(value) => setValue(value)}>
       <Editable
         renderElement={renderElement}
+        renderLeaf={renderLeaf}
         placeholder="Write some markdown..."
         spellCheck
         autoFocus
+        onKeyDown={(event) => {
+          for (const hotkey in HOTKEYS) {
+            if (isHotkey(hotkey, event as any)) {
+              event.preventDefault()
+              const mark = HOTKEYS[hotkey]
+              toggleMark(editor, mark)
+            }
+          }
+        }}
       />
     </Slate>
   )
@@ -148,6 +177,9 @@ const withShortcuts = (editor: Editor) => {
 }
 
 interface ElementProps extends RenderElementProps {}
+interface LeafProps extends RenderLeafProps {
+  leaf: Leaf
+}
 
 const Element = ({ attributes, children, element }: ElementProps) => {
   switch (element.type) {
@@ -172,6 +204,22 @@ const Element = ({ attributes, children, element }: ElementProps) => {
     default:
       return <p {...attributes}>{children}</p>
   }
+}
+
+const Leaf = ({ attributes, children, leaf }: LeafProps) => {
+  if (leaf.bold) {
+    children = <strong>{children}</strong>
+  }
+
+  if (leaf.code) {
+    children = <code>{children}</code>
+  }
+
+  if (leaf.italic) {
+    children = <em>{children}</em>
+  }
+
+  return <span {...attributes}>{children}</span>
 }
 
 const initialValue: Descendant[] = [
@@ -209,4 +257,4 @@ const initialValue: Descendant[] = [
   },
 ]
 
-export default MarkdownShortcutsExample
+export default SliteEditor
