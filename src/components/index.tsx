@@ -70,7 +70,7 @@ const isBlockActive = (editor: Editor, format: Format) => {
   return !!match
 }
 
-const isMarkActive = (editor: Editor, format: keyof Mark) => {
+export const isMarkActive = (editor: Editor, format: keyof Mark) => {
   const marks: Mark | null = Editor.marks(editor)
   return marks ? marks[format] === true : false
 }
