@@ -1,4 +1,11 @@
-import React, { useState, useCallback, useMemo, KeyboardEvent } from 'react'
+import React, {
+  useState,
+  useCallback,
+  useMemo,
+  useContext,
+  createContext,
+  KeyboardEvent,
+} from 'react'
 import {
   Slate,
   Editable,
@@ -19,16 +26,48 @@ import {
 import { toggleMark, Toolbars } from './components/'
 import { handleCodeBlockHighlight, CodeStatus, withShortcuts } from './utils/'
 
+type SliteContextValue = {
+  onKeyDown: (event: KeyboardEvent<HTMLElement>) => void
+}
+
+const defaultContextValue: SliteContextValue = {
+  onKeyDown: (event) => {
+    console.log('porumai ... default keydown ???', event)
+  },
+}
+
+const SliteContext = createContext(defaultContextValue)
+
 const HOTKEYS: { [key: string]: keyof Mark } = {
   'mod+b': 'bold',
   'mod+i': 'italic',
   'mod+`': 'code',
 }
 
-const SliteEditor = () => {
+const renderElement = (props: RenderElementProps) => <Element {...props} />
+const renderLeaf = (props: RenderLeafProps) => <Leaf {...props} />
+
+export function Editor() {
+  const { onKeyDown } = useContext(SliteContext)
+
+  return (
+    <Editable
+      renderElement={renderElement}
+      renderLeaf={renderLeaf}
+      placeholder="Write some markdown..."
+      spellCheck
+      autoFocus
+      onKeyDown={onKeyDown}
+    />
+  )
+}
+
+type Props = {
+  children: React.ReactNode
+}
+
+function Slite({ children }: Props) {
   const [value, setValue] = useState<Descendant[]>(initialValue)
-  const renderElement = useCallback((props) => <Element {...props} />, [])
-  const renderLeaf = useCallback((props) => <Leaf {...props} />, [])
   const editor = useMemo(
     () => withShortcuts(withReact(withHistory(createEditor()))),
     []
@@ -50,145 +89,9 @@ const SliteEditor = () => {
   )
 
   return (
-    <Slate editor={editor} value={value} onChange={(value) => setValue(value)}>
-      <div>
-        <Toolbars.Bold>
-          {({ isActive, onMouseDown }) => (
-            <button
-              style={{
-                background: isActive ? 'green' : 'blue',
-              }}
-              onMouseDown={onMouseDown}
-            >
-              {'Bold'}
-            </button>
-          )}
-        </Toolbars.Bold>
-
-        <Toolbars.Italic>
-          {({ isActive, onMouseDown }) => (
-            <button
-              style={{
-                background: isActive ? 'green' : 'blue',
-              }}
-              onMouseDown={onMouseDown}
-            >
-              {'Italic'}
-            </button>
-          )}
-        </Toolbars.Italic>
-
-        <Toolbars.Code>
-          {({ isActive, onMouseDown }) => (
-            <button
-              style={{
-                background: isActive ? 'green' : 'blue',
-              }}
-              onMouseDown={onMouseDown}
-            >
-              {'Code'}
-            </button>
-          )}
-        </Toolbars.Code>
-
-        <Toolbars.CodeBlock>
-          {({ isActive, onMouseDown }) => (
-            <button
-              style={{
-                background: isActive ? 'green' : 'blue',
-              }}
-              onMouseDown={onMouseDown}
-            >
-              {'</>'}
-            </button>
-          )}
-        </Toolbars.CodeBlock>
-
-        <Toolbars.HeadingOne>
-          {({ isActive, onMouseDown }) => (
-            <button
-              style={{
-                background: isActive ? 'green' : 'blue',
-              }}
-              onMouseDown={onMouseDown}
-            >
-              {'H1'}
-            </button>
-          )}
-        </Toolbars.HeadingOne>
-
-        <Toolbars.HeadingTwo>
-          {({ isActive, onMouseDown }) => (
-            <button
-              style={{
-                background: isActive ? 'green' : 'blue',
-              }}
-              onMouseDown={onMouseDown}
-            >
-              {'H2'}
-            </button>
-          )}
-        </Toolbars.HeadingTwo>
-
-        <Toolbars.HeadingThree>
-          {({ isActive, onMouseDown }) => (
-            <button
-              style={{
-                background: isActive ? 'green' : 'blue',
-              }}
-              onMouseDown={onMouseDown}
-            >
-              {'H3'}
-            </button>
-          )}
-        </Toolbars.HeadingThree>
-
-        <Toolbars.BlockQuote>
-          {({ isActive, onMouseDown }) => (
-            <button
-              style={{
-                background: isActive ? 'green' : 'blue',
-              }}
-              onMouseDown={onMouseDown}
-            >
-              {'|>'}
-            </button>
-          )}
-        </Toolbars.BlockQuote>
-
-        <Toolbars.NumberedList>
-          {({ isActive, onMouseDown }) => (
-            <button
-              style={{
-                background: isActive ? 'green' : 'blue',
-              }}
-              onMouseDown={onMouseDown}
-            >
-              {'1)'}
-            </button>
-          )}
-        </Toolbars.NumberedList>
-
-        <Toolbars.BulletedList>
-          {({ isActive, onMouseDown }) => (
-            <button
-              style={{
-                background: isActive ? 'green' : 'blue',
-              }}
-              onMouseDown={onMouseDown}
-            >
-              {'-'}
-            </button>
-          )}
-        </Toolbars.BulletedList>
-      </div>
-      <Editable
-        renderElement={renderElement}
-        renderLeaf={renderLeaf}
-        placeholder="Write some markdown..."
-        spellCheck
-        autoFocus
-        onKeyDown={(event: KeyboardEvent<HTMLElement>) => {
+    <SliteContext.Provider
+      value={{
+        onKeyDown: (event: KeyboardEvent<HTMLElement>) => {
           for (const hotkey in HOTKEYS) {
             if (isHotkey(hotkey, event as any)) {
               event.preventDefault()
@@ -199,9 +102,17 @@ const SliteEditor = () => {
 
           // handle '``' double backtick for inline code handling
           handleInlineCode(event)
-        }}
-      />
-    </Slate>
+        },
+      }}
+    >
+      <Slate
+        editor={editor}
+        value={value}
+        onChange={(value) => setValue(value)}
+      >
+        {children}
+      </Slate>
+    </SliteContext.Provider>
   )
 }
 
@@ -294,4 +205,4 @@ const initialValue: Descendant[] = [
 
 export { Toolbars }
 
-export default SliteEditor
+export default Slite
