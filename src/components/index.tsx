@@ -17,7 +17,7 @@ function isValidListType(format: any): format is ListType {
   return LIST_TYPES.includes(format)
 }
 
-const toggleBlock = (editor: Editor, format: Format) => {
+export const toggleBlock = (editor: Editor, format: Format) => {
   const isActive = isBlockActive(editor, format)
   // const isList = LIST_TYPES.includes(format)
   const isList = isValidListType(format)
@@ -55,7 +55,7 @@ export const toggleMark = (editor: Editor, format: keyof Mark) => {
   }
 }
 
-const isBlockActive = (editor: Editor, format: Format) => {
+export const isBlockActive = (editor: Editor, format: Format) => {
   const { selection } = editor
   if (!selection) return false
 
