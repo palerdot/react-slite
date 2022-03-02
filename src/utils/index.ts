@@ -74,6 +74,8 @@ export function handleCodeBlockHighlight({
       // do not proceed
       return
     }
+    // remove code mark
+    Editor.removeMark(editor, 'code')
     // enable codeblock
     toggleBlock(editor, FormatType.CodeBlock)
     // reset code status
