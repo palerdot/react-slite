@@ -175,5 +175,7 @@ const Leaf = ({ attributes, children, leaf }: LeafProps) => {
 }
 
 export { Toolbars }
+// export types
+export { Descendant }
 
 export default Slite
