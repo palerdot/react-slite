@@ -190,19 +190,6 @@ function Toolbar() {
         )}
       </Toolbars.BlockQuote>
 
-      <Toolbars.NumberedList>
-        {({ isActive, onMouseDown }) => (
-          <button
-            style={{
-              background: isActive ? 'green' : 'blue',
-            }}
-            onMouseDown={onMouseDown}
-          >
-            {'1)'}
-          </button>
-        )}
-      </Toolbars.NumberedList>
-
       <Toolbars.BulletedList>
         {({ isActive, onMouseDown }) => (
           <button

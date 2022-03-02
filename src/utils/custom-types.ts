@@ -2,27 +2,30 @@ import { Descendant, BaseEditor } from 'slate'
 import { ReactEditor } from 'slate-react'
 import { HistoryEditor } from 'slate-history'
 
+// ref: https://github.com/hanford/remark-slate/blob/master/src/ast-types.ts
+// Custom types should follow
+
 export const HeadingType = {
   // Default: 'heading',
-  One: 'heading-one',
-  Two: 'heading-two',
-  Three: 'heading-three',
-  Four: 'heading-four',
-  Five: 'heading-five',
-  Six: 'heading-six',
+  One: 'heading_one',
+  Two: 'heading_two',
+  Three: 'heading_three',
+  Four: 'heading_four',
+  Five: 'heading_five',
+  Six: 'heading_six',
 } as const
 
 export const FormatType = {
-  BlockQuote: 'block-quote',
-  BulletList: 'bulleted-list',
-  NumberedList: 'numbered-list',
-  CheckListItem: 'check-list-item',
-  ListItem: 'list-item',
-  EditableVoid: 'editable-void',
-  Image: 'image',
-  Link: 'link',
-  Button: 'button',
-  Mention: 'mention',
+  BlockQuote: 'block_quote',
+  BulletList: 'ul_list',
+  NumberedList: 'ol_list',
+  // CheckListItem: 'check-list-item',
+  ListItem: 'list_item',
+  // EditableVoid: 'editable-void',
+  // Image: 'image',
+  // Link: 'link',
+  // Button: 'button',
+  // Mention: 'mention',
   Paragraph: 'paragraph',
   CodeBlock: 'code_block',
   // Marks
@@ -64,16 +67,16 @@ export type NumberedListElement = {
   children: Descendant[]
 }
 
-export type CheckListItemElement = {
-  type: typeof ElementType.CheckListItem
-  checked: boolean
-  children: Descendant[]
-}
+// export type CheckListItemElement = {
+//   type: typeof ElementType.CheckListItem
+//   checked: boolean
+//   children: Descendant[]
+// }
 
-export type EditableVoidElement = {
-  type: typeof ElementType.EditableVoid
-  children: EmptyText[]
-}
+// export type EditableVoidElement = {
+//   type: typeof ElementType.EditableVoid
+//   children: EmptyText[]
+// }
 
 export type HeadingOneElement = {
   type: typeof HeadingType.One
@@ -109,33 +112,33 @@ export type HeadingElement =
   | HeadingFiveElement
   | HeadingSixElement
 
-export type ImageElement = {
-  type: typeof ElementType.Image
-  url: string
-  children: EmptyText[]
-}
+// export type ImageElement = {
+//   type: typeof ElementType.Image
+//   url: string
+//   children: EmptyText[]
+// }
 
-export type LinkElement = {
-  type: typeof ElementType.Link
-  url: string
-  children: Descendant[]
-}
+// export type LinkElement = {
+//   type: typeof ElementType.Link
+//   url: string
+//   children: Descendant[]
+// }
 
-export type ButtonElement = {
-  type: typeof ElementType.Button
-  children: Descendant[]
-}
+// export type ButtonElement = {
+//   type: typeof ElementType.Button
+//   children: Descendant[]
+// }
 
 export type ListItemElement = {
   type: typeof ElementType.ListItem
   children: Descendant[]
 }
 
-export type MentionElement = {
-  type: typeof ElementType.Mention
-  character: string
-  children: CustomText[]
-}
+// export type MentionElement = {
+//   type: typeof ElementType.Mention
+//   character: string
+//   children: CustomText[]
+// }
 
 export type ParagraphElement = {
   type: typeof ElementType.Paragraph
@@ -151,14 +154,8 @@ type CustomElement =
   | BlockQuoteElement
   | BulletedListElement
   | NumberedListElement
-  | CheckListItemElement
-  | EditableVoidElement
   | HeadingElement
-  | ImageElement
-  | LinkElement
-  | ButtonElement
   | ListItemElement
-  | MentionElement
   | ParagraphElement
   | CodeBlockElement
 

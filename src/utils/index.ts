@@ -175,7 +175,7 @@ export const withShortcuts = (editor: Editor) => {
           match: (n) => Editor.isBlock(editor, n),
         })
 
-        if (type === 'list-item') {
+        if (type === FormatType.ListItem) {
           const list: BulletedListElement = {
             type: ElementType.BulletList,
             children: [],
@@ -184,7 +184,7 @@ export const withShortcuts = (editor: Editor) => {
             match: (n) =>
               !Editor.isEditor(n) &&
               SlateElement.isElement(n) &&
-              n.type === 'list-item',
+              n.type === FormatType.ListItem,
           })
         }
 
@@ -210,7 +210,7 @@ export const withShortcuts = (editor: Editor) => {
         if (
           !Editor.isEditor(block) &&
           SlateElement.isElement(block) &&
-          block.type !== 'paragraph' &&
+          block.type !== FormatType.Paragraph &&
           Point.equals(selection.anchor, start)
         ) {
           const newProperties: Partial<SlateElement> = {
@@ -218,12 +218,12 @@ export const withShortcuts = (editor: Editor) => {
           }
           Transforms.setNodes(editor, newProperties)
 
-          if (block.type === 'list-item') {
+          if (block.type === FormatType.ListItem) {
             Transforms.unwrapNodes(editor, {
               match: (n) =>
                 !Editor.isEditor(n) &&
                 SlateElement.isElement(n) &&
-                n.type === 'bulleted-list',
+                n.type === FormatType.BulletList,
               split: true,
             })
           }

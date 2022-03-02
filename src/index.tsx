@@ -17,7 +17,12 @@ import { createEditor, Descendant } from 'slate'
 import { withHistory } from 'slate-history'
 import isHotkey from 'is-hotkey'
 
-import { Leaf as LeafType, Mark, FormatType } from './utils/custom-types'
+import {
+  Leaf as LeafType,
+  Mark,
+  FormatType,
+  HeadingType,
+} from './utils/custom-types'
 import { toggleMark, Toolbars } from './components/'
 import { handleCodeBlockHighlight, CodeStatus, withShortcuts } from './utils/'
 
@@ -124,23 +129,23 @@ interface LeafProps extends RenderLeafProps {
 
 const Element = ({ attributes, children, element }: ElementProps) => {
   switch (element.type) {
-    case 'block-quote':
+    case FormatType.BlockQuote:
       return <blockquote {...attributes}>{children}</blockquote>
-    case 'bulleted-list':
+    case FormatType.BulletList:
       return <ul {...attributes}>{children}</ul>
-    case 'heading-one':
+    case HeadingType.One:
       return <h1 {...attributes}>{children}</h1>
-    case 'heading-two':
+    case HeadingType.Two:
       return <h2 {...attributes}>{children}</h2>
-    case 'heading-three':
+    case HeadingType.Three:
       return <h3 {...attributes}>{children}</h3>
-    case 'heading-four':
+    case HeadingType.Four:
       return <h4 {...attributes}>{children}</h4>
-    case 'heading-five':
+    case HeadingType.Five:
       return <h5 {...attributes}>{children}</h5>
-    case 'heading-six':
+    case HeadingType.Six:
       return <h6 {...attributes}>{children}</h6>
-    case 'list-item':
+    case FormatType.ListItem:
       return <li {...attributes}>{children}</li>
     case FormatType.CodeBlock:
       return (
