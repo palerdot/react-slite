@@ -17,5 +17,6 @@ pre.codeblock {
     font-family: monospace;
     background-color: #eee;
     margin: 0;
-    padding: 2px;
+    padding: 3px;
+    font-size: 0.89rem;
 }

@@ -17,12 +17,7 @@ import { createEditor, Descendant } from 'slate'
 import { withHistory } from 'slate-history'
 import isHotkey from 'is-hotkey'
 
-import {
-  ElementType,
-  HeadingType,
-  Leaf as LeafType,
-  Mark,
-} from './utils/custom-types'
+import { Leaf as LeafType, Mark, FormatType } from './utils/custom-types'
 import { toggleMark, Toolbars } from './components/'
 import { handleCodeBlockHighlight, CodeStatus, withShortcuts } from './utils/'
 
@@ -63,10 +58,12 @@ export function Editor() {
 }
 
 type Props = {
+  initialValue: Descendant[]
+  onChange: (newValue: Descendant[]) => void
   children: React.ReactNode
 }
 
-function Slite({ children }: Props) {
+function Slite({ initialValue, onChange, children }: Props) {
   const [value, setValue] = useState<Descendant[]>(initialValue)
   const editor = useMemo(
     () => withShortcuts(withReact(withHistory(createEditor()))),
@@ -108,7 +105,11 @@ function Slite({ children }: Props) {
       <Slate
         editor={editor}
         value={value}
-        onChange={(value) => setValue(value)}
+        onChange={(value) => {
+          setValue(value)
+          // update onchange handler with new value
+          onChange(value)
+        }}
       >
         {children}
       </Slate>
@@ -141,7 +142,7 @@ const Element = ({ attributes, children, element }: ElementProps) => {
       return <h6 {...attributes}>{children}</h6>
     case 'list-item':
       return <li {...attributes}>{children}</li>
-    case 'code-block':
+    case FormatType.CodeBlock:
       return (
         <pre className={'codeblock'}>
           <code {...attributes}>{children}</code>
@@ -157,51 +158,16 @@ const Leaf = ({ attributes, children, leaf }: LeafProps) => {
     children = <strong>{children}</strong>
   }
 
-  if (leaf.code) {
-    children = <code>{children}</code>
-  }
-
   if (leaf.italic) {
     children = <em>{children}</em>
   }
 
+  if (leaf.code) {
+    children = <code>{children}</code>
+  }
+
   return <span {...attributes}>{children}</span>
 }
-
-const initialValue: Descendant[] = [
-  {
-    type: ElementType.Paragraph,
-    children: [
-      {
-        text: 'The editor gives you full control over the logic you can add. For example, it\'s fairly common to want to add markdown-like shortcuts to editors. So that, when you start a line with "> " you get a blockquote that looks like this:',
-      },
-    ],
-  },
-  {
-    type: ElementType.BlockQuote,
-    children: [{ text: 'A wise quote.' }],
-  },
-  {
-    type: ElementType.Paragraph,
-    children: [
-      {
-        text: 'Order when you start a line with "## " you get a level-two heading, like this:',
-      },
-    ],
-  },
-  {
-    type: HeadingType.Two,
-    children: [{ text: 'Try it out!' }],
-  },
-  {
-    type: ElementType.Paragraph,
-    children: [
-      {
-        text: 'Try it out for yourself! Try starting a new line with ">", "-", or "#"s.',
-      },
-    ],
-  },
-]
 
 export { Toolbars }
 

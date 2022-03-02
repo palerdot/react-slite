@@ -24,7 +24,7 @@ export const FormatType = {
   Button: 'button',
   Mention: 'mention',
   Paragraph: 'paragraph',
-  CodeBlock: 'code-block',
+  CodeBlock: 'code_block',
   // Marks
   // Bold: 'bold',
   // Italic: 'italic',

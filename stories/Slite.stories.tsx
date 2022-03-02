@@ -1,15 +1,57 @@
 import React from 'react'
+import { Descendant } from 'slate'
 import { Meta, Story } from '@storybook/react'
 
 import './storybook.css'
 
+import { ElementType, HeadingType } from '../src/utils/custom-types'
 import Slite, { Editor, Toolbars } from '../src'
+
+const initialValue: Descendant[] = [
+  {
+    type: ElementType.Paragraph,
+    children: [
+      {
+        text: 'The editor gives you full control over the logic you can add. For example, it\'s fairly common to want to add markdown-like shortcuts to editors. So that, when you start a line with "> " you get a blockquote that looks like this:',
+      },
+    ],
+  },
+  {
+    type: ElementType.BlockQuote,
+    children: [{ text: 'A wise quote.' }],
+  },
+  {
+    type: ElementType.Paragraph,
+    children: [
+      {
+        text: 'Order when you start a line with "## " you get a level-two heading, like this:',
+      },
+    ],
+  },
+  {
+    type: HeadingType.Two,
+    children: [{ text: 'Try it out!' }],
+  },
+  {
+    type: ElementType.Paragraph,
+    children: [
+      {
+        text: 'Try it out for yourself! Try starting a new line with ">", "-", or "#"s.',
+      },
+    ],
+  },
+]
 
 type Props = {}
 
 function DefaultSlite() {
   return (
-    <Slite>
+    <Slite
+      initialValue={initialValue}
+      onChange={(newValue) => {
+        console.log('porumai ... updated value ', newValue)
+      }}
+    >
       <Toolbar />
       <Editor />
     </Slite>
