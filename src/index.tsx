@@ -13,7 +13,7 @@ import {
   RenderElementProps,
   RenderLeafProps,
 } from 'slate-react'
-import { createEditor, Descendant, Editor } from 'slate'
+import { createEditor, Descendant } from 'slate'
 import { withHistory } from 'slate-history'
 import isHotkey from 'is-hotkey'
 
