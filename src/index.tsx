@@ -13,7 +13,7 @@ import {
   RenderElementProps,
   RenderLeafProps,
 } from 'slate-react'
-import { createEditor, Descendant } from 'slate'
+import { createEditor, Descendant, Editor } from 'slate'
 import { withHistory } from 'slate-history'
 import isHotkey from 'is-hotkey'
 
@@ -47,7 +47,11 @@ const HOTKEYS: { [key: string]: keyof Mark } = {
 const renderElement = (props: RenderElementProps) => <Element {...props} />
 const renderLeaf = (props: RenderLeafProps) => <Leaf {...props} />
 
-export function Editor() {
+type EditorProps = {
+  readOnly?: boolean
+}
+
+export function Editor({ readOnly }: EditorProps) {
   const { onKeyDown } = useContext(SliteContext)
 
   return (
@@ -56,7 +60,7 @@ export function Editor() {
       renderLeaf={renderLeaf}
       placeholder="Write some markdown..."
       spellCheck
-      autoFocus
+      autoFocus={!readOnly}
       onKeyDown={onKeyDown}
     />
   )
