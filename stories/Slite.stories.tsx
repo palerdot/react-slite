@@ -83,7 +83,7 @@ export const Default = Template.bind({})
 
 Default.args = {}
 
-function Toolbar() {
+export function Toolbar() {
   return (
     <div>
       <Toolbars.Bold>
