@@ -114,13 +114,23 @@ export function handleCodeBlockHighlight({
   }
 
   if (codeStatus === CodeStatus.Inline) {
+    console.log('porumai ... SEcOND backtick ??? ', editor.selection)
     // second backtick is pressed; enable inline code
-    editor.deleteBackward('character')
-    toggleMark(editor, 'code')
-    editor.insertText('')
+    event.preventDefault()
+    const { selection } = editor
+    const isStart = selection?.anchor.offset === 1
+
+    if (isStart) {
+      editor.deleteBackward('character')
+      toggleMark(editor, 'code')
+      Editor.insertText(editor, '')
+    } else {
+      toggleMark(editor, 'code')
+      editor.deleteBackward('character')
+    }
+
     // set status to block
     setCodeStatus(CodeStatus.Block)
-    event.preventDefault()
     // remove two backticks
     // do not proceed
     return
