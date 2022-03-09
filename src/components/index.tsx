@@ -27,7 +27,8 @@ export const toggleBlock = (editor: Editor, format: Format) => {
       !Editor.isEditor(n) &&
       SlateElement.isElement(n) &&
       // LIST_TYPES.includes(n.type),
-      isValidListType(n.type),
+      // isValidListType(n.type),
+      true,
     split: true,
   })
   const newProperties: Partial<SlateElement> = {
