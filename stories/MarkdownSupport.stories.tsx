@@ -8,6 +8,8 @@ import { mdToSlate, slateToMd } from '../src/utils/markdown'
 import { Toolbar } from './Slite.stories'
 
 const defaultText = `
+  porumai
+
   > porumai wait and hope
 
   \`porumai ... \`
@@ -69,6 +71,7 @@ function MarkdownSlite() {
       <Slite
         initialValue={initialValue}
         onChange={(newValue) => {
+          console.log('porumai ... original slate ', newValue)
           slateToMd(newValue).then((s) => setFinalString(s))
         }}
       >
