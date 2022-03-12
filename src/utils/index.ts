@@ -114,7 +114,6 @@ export function handleCodeBlockHighlight({
   }
 
   if (codeStatus === CodeStatus.Inline) {
-    console.log('porumai ... SEcOND backtick ??? ', editor.selection)
     // second backtick is pressed; enable inline code
     event.preventDefault()
     const { selection } = editor
@@ -138,17 +137,17 @@ export function handleCodeBlockHighlight({
 }
 
 export const SHORTCUTS = {
-  '*': ElementType.ListItem,
-  '-': ElementType.ListItem,
-  '+': ElementType.ListItem,
-  '>': ElementType.BlockQuote,
-  '#': HeadingType.One,
-  '##': HeadingType.Two,
-  '###': HeadingType.Three,
-  '####': HeadingType.Four,
-  '#####': HeadingType.Five,
-  '######': HeadingType.Six,
-  '{{': ElementType.CodeBlock,
+  '* ': ElementType.ListItem,
+  '- ': ElementType.ListItem,
+  '+ ': ElementType.ListItem,
+  '> ': ElementType.BlockQuote,
+  '# ': HeadingType.One,
+  '## ': HeadingType.Two,
+  '### ': HeadingType.Three,
+  '#### ': HeadingType.Four,
+  '##### ': HeadingType.Five,
+  '###### ': HeadingType.Six,
+  '{{ ': ElementType.CodeBlock,
 }
 
 export type ShortcutKey = keyof typeof SHORTCUTS
@@ -165,19 +164,24 @@ export const withShortcuts = (editor: Editor) => {
   editor.insertText = (text) => {
     const { selection } = editor
 
-    if (text === ' ' && selection && Range.isCollapsed(selection)) {
+    if (selection && Range.isCollapsed(selection)) {
       const { anchor } = selection
       const block = Editor.above(editor, {
         match: (n) => Editor.isBlock(editor, n),
       })
       const path = block ? block[1] : []
       const start = Editor.start(editor, path)
-      const range = { anchor, focus: start }
+      const range = {
+        anchor,
+        focus: start,
+      }
 
       const beforeText = Editor.string(editor, range)
+      // we have to match beforeText + currentText
+      const currentText = beforeText + text
 
-      if (isValidShortcutType(beforeText)) {
-        const type = SHORTCUTS[beforeText]
+      if (isValidShortcutType(currentText)) {
+        const type = SHORTCUTS[currentText]
         Transforms.select(editor, range)
         Transforms.delete(editor)
         const newProperties: Partial<SlateElement> = {

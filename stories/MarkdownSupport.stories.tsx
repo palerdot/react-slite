@@ -24,7 +24,7 @@ function PreviewSlate({ md }: { md: string }) {
       setStatus(false)
       setTimeout(() => {
         setInitialValue(slateValue)
-        console.log('porumai ... updated slate tree ', slateValue)
+        // console.log('porumai ... updated slate tree ', slateValue)
         setStatus(true)
       }, 314)
     })
@@ -71,7 +71,7 @@ function MarkdownSlite() {
       <Slite
         initialValue={initialValue}
         onChange={(newValue) => {
-          console.log('porumai ... original slate ', newValue)
+          // console.log('porumai ... original slate ', newValue)
           slateToMd(newValue).then((s) => setFinalString(s))
         }}
       >

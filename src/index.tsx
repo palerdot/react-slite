@@ -58,7 +58,7 @@ export function Editor({ readOnly }: EditorProps) {
     <Editable
       renderElement={renderElement}
       renderLeaf={renderLeaf}
-      placeholder="Write some markdown..."
+      placeholder="Jot something down ..."
       spellCheck
       autoFocus={!readOnly}
       onKeyDown={onKeyDown}
