@@ -1,6 +1,6 @@
 import { serialize, deserialize } from 'remark-slate'
 import { fromMarkdown } from 'mdast-util-from-markdown'
-import { get } from 'lodash-es'
+import { get, isEmpty } from 'lodash-es'
 
 import type { Descendant } from 'slate'
 
@@ -141,6 +141,50 @@ export function slateToMd(nodes: Descendant[]): Promise<string> {
           children: paraChildren,
         })
         parsed.push(output || '')
+        // do not proceed
+        return
+      }
+
+      // dealing with thematic break problem
+      // ref: https://github.com/ianstormtaylor/slate/issues/3421
+      /*  
+       {
+         break: true,
+         type: "thematic_break",
+         children: [{text: "sometext"}]
+       }
+       // Above structure will be pried open and the children will 
+       // be transferred to 'paragraph'
+       */
+      const isThematicBreak = get(v, 'type') === 'thematic_break'
+      const thematicBreakChildren = get(v, 'children', [])
+
+      // if thematic break has children we will render an empty thematic break
+      // and transfer the children to paragraph element
+      if (isThematicBreak && !isEmpty(thematicBreakChildren)) {
+        // insert empty line before thematic break
+        parsed.push(
+          serialize({
+            type: 'paragraph',
+            children: [{ text: '' }],
+          }) || ''
+        )
+        // insert empty thematic break
+        const emptyThematicBreak = serialize({
+          type: 'thematic_break',
+          break: true,
+          children: [],
+        })
+        parsed.push(emptyThematicBreak || '')
+
+        // we are transferring the children to paragraph
+        const paraElement = serialize({
+          type: 'paragraph',
+          break: false,
+          children: thematicBreakChildren,
+        })
+        parsed.push(paraElement || '')
+
         // do not proceed
         return
       }

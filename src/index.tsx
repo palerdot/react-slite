@@ -157,6 +157,20 @@ const Element = ({ attributes, children, element }: ElementProps) => {
           <code {...attributes}>{children}</code>
         </pre>
       )
+    case FormatType.ThematicBreak:
+      return (
+        <div>
+          <div
+            className="thematic_break"
+            // {...attributes}
+            contentEditable={false}
+            style={{
+              userSelect: 'none',
+            }}
+          />
+          <p>{children}</p>
+        </div>
+      )
     default:
       return <p {...attributes}>{children}</p>
   }

@@ -138,6 +138,19 @@ export function Toolbar() {
         )}
       </Toolbars.CodeBlock>
 
+      <Toolbars.ThematicBreakBlock>
+        {({ isActive, onMouseDown }) => (
+          <button
+            style={{
+              background: isActive ? 'green' : 'blue',
+            }}
+            onMouseDown={onMouseDown}
+          >
+            {'<-->'}
+          </button>
+        )}
+      </Toolbars.ThematicBreakBlock>
+
       <Toolbars.HeadingOne>
         {({ isActive, onMouseDown }) => (
           <button

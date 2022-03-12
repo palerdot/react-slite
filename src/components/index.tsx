@@ -107,6 +107,9 @@ export const BlockButton = ({ format, children }: ButtonProps) => {
   const onMouseDown = useCallback(
     (event: MouseEvent) => {
       event.preventDefault()
+      if (format === FormatType.ThematicBreak) {
+        editor.insertBreak()
+      }
       toggleBlock(editor, format)
     },
     [editor]
@@ -151,6 +154,10 @@ function CodeBlockButton({ children }: ToolbarProps) {
   return <BlockButton format={FormatType.CodeBlock}>{children}</BlockButton>
 }
 
+function ThematicBreakBlockButton({ children }: ToolbarProps) {
+  return <BlockButton format={FormatType.ThematicBreak}>{children}</BlockButton>
+}
+
 function HeadingOneButton({ children }: ToolbarProps) {
   return <BlockButton format={HeadingType.One}>{children}</BlockButton>
 }
@@ -192,6 +199,7 @@ export const Toolbars = {
   Italic: ItalicButton,
   Code: CodeButton,
   CodeBlock: CodeBlockButton,
+  ThematicBreakBlock: ThematicBreakBlockButton,
   HeadingOne: HeadingOneButton,
   HeadingTwo: HeadingTwoButton,
   HeadingThree: HeadingThreeButton,

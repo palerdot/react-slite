@@ -2,6 +2,7 @@ import { Descendant, BaseEditor } from 'slate'
 import { ReactEditor } from 'slate-react'
 import { HistoryEditor } from 'slate-history'
 
+// IMPORTANT: types should match AST TYPE
 // ref: https://github.com/hanford/remark-slate/blob/master/src/ast-types.ts
 // Custom types should follow
 
@@ -28,6 +29,7 @@ export const FormatType = {
   // Mention: 'mention',
   Paragraph: 'paragraph',
   CodeBlock: 'code_block',
+  ThematicBreak: 'thematic_break',
   // Marks
   // Bold: 'bold',
   // Italic: 'italic',
@@ -150,6 +152,11 @@ export type CodeBlockElement = {
   children: Descendant[]
 }
 
+export type ThematicBreakElement = {
+  type: typeof ElementType.ThematicBreak
+  children: Descendant[]
+}
+
 type CustomElement =
   | BlockQuoteElement
   | BulletedListElement
@@ -158,6 +165,7 @@ type CustomElement =
   | ListItemElement
   | ParagraphElement
   | CodeBlockElement
+  | ThematicBreakElement
 
 export type CustomText = {
   bold?: boolean
