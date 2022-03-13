@@ -32,10 +32,10 @@ jobs:
           run_install: true
 
       - name: Lint
-        run: yarn lint
+        run: pnpm lint
 
       - name: Test
-        run: yarn test --ci --coverage --maxWorkers=2
+        run: pnpm test --ci --coverage --maxWorkers=2
 
       - name: Build
-        run: yarn build
+        run: pnpm build
