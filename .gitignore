@@ -3,5 +3,6 @@
 node_modules
 .cache
 dist
+coverage
 
 *.code-workspace

@@ -115,12 +115,21 @@ export function handleCodeBlockHighlight({
 
   if (codeStatus === CodeStatus.Inline) {
     // second backtick is pressed; enable inline code
-    editor.deleteBackward('character')
-    toggleMark(editor, 'code')
-    editor.insertText('')
+    event.preventDefault()
+    const { selection } = editor
+    const isStart = selection?.anchor.offset === 1
+
+    if (isStart) {
+      editor.deleteBackward('character')
+      toggleMark(editor, 'code')
+      Editor.insertText(editor, '')
+    } else {
+      toggleMark(editor, 'code')
+      editor.deleteBackward('character')
+    }
+
     // set status to block
     setCodeStatus(CodeStatus.Block)
-    event.preventDefault()
     // remove two backticks
     // do not proceed
     return
@@ -128,17 +137,18 @@ export function handleCodeBlockHighlight({
 }
 
 export const SHORTCUTS = {
-  '*': ElementType.ListItem,
-  '-': ElementType.ListItem,
-  '+': ElementType.ListItem,
-  '>': ElementType.BlockQuote,
-  '#': HeadingType.One,
-  '##': HeadingType.Two,
-  '###': HeadingType.Three,
-  '####': HeadingType.Four,
-  '#####': HeadingType.Five,
-  '######': HeadingType.Six,
-  '{{': ElementType.CodeBlock,
+  '* ': ElementType.ListItem,
+  '- ': ElementType.ListItem,
+  '+ ': ElementType.ListItem,
+  '> ': ElementType.BlockQuote,
+  '# ': HeadingType.One,
+  '## ': HeadingType.Two,
+  '### ': HeadingType.Three,
+  '#### ': HeadingType.Four,
+  '##### ': HeadingType.Five,
+  '###### ': HeadingType.Six,
+  '{{ ': ElementType.CodeBlock,
+  '--- ': ElementType.ThematicBreak,
 }
 
 export type ShortcutKey = keyof typeof SHORTCUTS
@@ -152,29 +162,34 @@ function isValidShortcutType(type: string): type is ShortcutKey {
 export const withShortcuts = (editor: Editor) => {
   const { deleteBackward, insertText } = editor
 
-  editor.insertText = (text) => {
+  editor.insertText = text => {
     const { selection } = editor
 
-    if (text === ' ' && selection && Range.isCollapsed(selection)) {
+    if (selection && Range.isCollapsed(selection)) {
       const { anchor } = selection
       const block = Editor.above(editor, {
-        match: (n) => Editor.isBlock(editor, n),
+        match: n => Editor.isBlock(editor, n),
       })
       const path = block ? block[1] : []
       const start = Editor.start(editor, path)
-      const range = { anchor, focus: start }
+      const range = {
+        anchor,
+        focus: start,
+      }
 
       const beforeText = Editor.string(editor, range)
+      // we have to match beforeText + currentText
+      const currentText = beforeText + text
 
-      if (isValidShortcutType(beforeText)) {
-        const type = SHORTCUTS[beforeText]
+      if (isValidShortcutType(currentText)) {
+        const type = SHORTCUTS[currentText]
         Transforms.select(editor, range)
         Transforms.delete(editor)
         const newProperties: Partial<SlateElement> = {
           type,
         }
         Transforms.setNodes<SlateElement>(editor, newProperties, {
-          match: (n) => Editor.isBlock(editor, n),
+          match: n => Editor.isBlock(editor, n),
         })
 
         if (type === FormatType.ListItem) {
@@ -183,7 +198,7 @@ export const withShortcuts = (editor: Editor) => {
             children: [],
           }
           Transforms.wrapNodes(editor, list, {
-            match: (n) =>
+            match: n =>
               !Editor.isEditor(n) &&
               SlateElement.isElement(n) &&
               n.type === FormatType.ListItem,
@@ -202,7 +217,7 @@ export const withShortcuts = (editor: Editor) => {
 
     if (selection && Range.isCollapsed(selection)) {
       const match = Editor.above(editor, {
-        match: (n) => Editor.isBlock(editor, n),
+        match: n => Editor.isBlock(editor, n),
       })
 
       if (match) {
@@ -222,7 +237,7 @@ export const withShortcuts = (editor: Editor) => {
 
           if (block.type === FormatType.ListItem) {
             Transforms.unwrapNodes(editor, {
-              match: (n) =>
+              match: n =>
                 !Editor.isEditor(n) &&
                 SlateElement.isElement(n) &&
                 n.type === FormatType.BulletList,

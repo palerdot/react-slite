@@ -48,7 +48,7 @@ function DefaultSlite() {
   return (
     <Slite
       initialValue={initialValue}
-      onChange={(newValue) => {
+      onChange={newValue => {
         console.log('porumai ... updated value ', newValue)
       }}
     >
@@ -75,7 +75,7 @@ const meta: Meta = {
 
 export default meta
 
-const Template: Story<Props> = (args) => <DefaultSlite {...args} />
+const Template: Story<Props> = args => <DefaultSlite {...args} />
 
 // By passing using the Args format for exported stories, you can control the props for a component for reuse in a test
 // https://storybook.js.org/docs/react/workflows/unit-testing
@@ -83,7 +83,7 @@ export const Default = Template.bind({})
 
 Default.args = {}
 
-function Toolbar() {
+export function Toolbar() {
   return (
     <div>
       <Toolbars.Bold>
@@ -137,6 +137,19 @@ function Toolbar() {
           </button>
         )}
       </Toolbars.CodeBlock>
+
+      <Toolbars.ThematicBreakBlock>
+        {({ isActive, onMouseDown }) => (
+          <button
+            style={{
+              background: isActive ? 'green' : 'blue',
+            }}
+            onMouseDown={onMouseDown}
+          >
+            {'<-->'}
+          </button>
+        )}
+      </Toolbars.ThematicBreakBlock>
 
       <Toolbars.HeadingOne>
         {({ isActive, onMouseDown }) => (

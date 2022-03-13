@@ -23,11 +23,7 @@ export const toggleBlock = (editor: Editor, format: Format) => {
   const isList = isValidListType(format)
 
   Transforms.unwrapNodes(editor, {
-    match: (n) =>
-      !Editor.isEditor(n) &&
-      SlateElement.isElement(n) &&
-      // LIST_TYPES.includes(n.type),
-      isValidListType(n.type),
+    match: n => !Editor.isEditor(n) && SlateElement.isElement(n),
     split: true,
   })
   const newProperties: Partial<SlateElement> = {
@@ -62,7 +58,7 @@ export const isBlockActive = (editor: Editor, format: Format) => {
   const [match] = Array.from(
     Editor.nodes(editor, {
       at: Editor.unhangRange(editor, selection),
-      match: (n) =>
+      match: n =>
         !Editor.isEditor(n) && SlateElement.isElement(n) && n.type === format,
     })
   )
@@ -106,9 +102,12 @@ export const BlockButton = ({ format, children }: ButtonProps) => {
   const onMouseDown = useCallback(
     (event: MouseEvent) => {
       event.preventDefault()
+      if (format === FormatType.ThematicBreak) {
+        editor.insertBreak()
+      }
       toggleBlock(editor, format)
     },
-    [editor]
+    [editor, format]
   )
 
   return children({
@@ -126,7 +125,7 @@ export const MarkButton = ({ format, children }: MarkButtonProps) => {
       event.preventDefault()
       toggleMark(editor, format)
     },
-    [editor]
+    [editor, format]
   )
   return children({
     isActive,
@@ -148,6 +147,10 @@ function CodeButton({ children }: ToolbarProps) {
 
 function CodeBlockButton({ children }: ToolbarProps) {
   return <BlockButton format={FormatType.CodeBlock}>{children}</BlockButton>
+}
+
+function ThematicBreakBlockButton({ children }: ToolbarProps) {
+  return <BlockButton format={FormatType.ThematicBreak}>{children}</BlockButton>
 }
 
 function HeadingOneButton({ children }: ToolbarProps) {
@@ -191,6 +194,7 @@ export const Toolbars = {
   Italic: ItalicButton,
   Code: CodeButton,
   CodeBlock: CodeBlockButton,
+  ThematicBreakBlock: ThematicBreakBlockButton,
   HeadingOne: HeadingOneButton,
   HeadingTwo: HeadingTwoButton,
   HeadingThree: HeadingThreeButton,

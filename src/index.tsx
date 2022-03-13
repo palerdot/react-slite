@@ -16,6 +16,7 @@ import {
 import { createEditor, Descendant } from 'slate'
 import { withHistory } from 'slate-history'
 import isHotkey from 'is-hotkey'
+import { get } from 'lodash-es'
 
 import {
   Leaf as LeafType,
@@ -25,13 +26,14 @@ import {
 } from './utils/custom-types'
 import { toggleMark, Toolbars } from './components/'
 import { handleCodeBlockHighlight, CodeStatus, withShortcuts } from './utils/'
+import { mdToSlate, slateToMd } from './utils/markdown'
 
 type SliteContextValue = {
   onKeyDown: (event: KeyboardEvent<HTMLElement>) => void
 }
 
 const defaultContextValue: SliteContextValue = {
-  onKeyDown: (event) => {
+  onKeyDown: event => {
     console.log('porumai ... default keydown ???', event)
   },
 }
@@ -58,7 +60,7 @@ export function Editor({ readOnly }: EditorProps) {
     <Editable
       renderElement={renderElement}
       renderLeaf={renderLeaf}
-      placeholder="Write some markdown..."
+      placeholder="Jot something down ..."
       spellCheck
       autoFocus={!readOnly}
       onKeyDown={onKeyDown}
@@ -114,7 +116,7 @@ function Slite({ initialValue, onChange, children }: Props) {
       <Slate
         editor={editor}
         value={value}
-        onChange={(value) => {
+        onChange={value => {
           setValue(value)
           // update onchange handler with new value
           onChange(value)
@@ -157,6 +159,34 @@ const Element = ({ attributes, children, element }: ElementProps) => {
           <code {...attributes}>{children}</code>
         </pre>
       )
+    case FormatType.ThematicBreak:
+      // ok ... we have a weird slate issue
+      // ref: https://github.com/ianstormtaylor/slate/issues/3421
+      // When incoming string -> slate has a thematic break,
+      // the children will have a react node with 'thematic_break' with
+      // break: false
+      const showEmptySlateIncomingPara = get(children, '[0].props.parent.break')
+      return (
+        <div>
+          <div
+            className="thematic_break"
+            // {...attributes}
+            contentEditable={false}
+            style={{
+              userSelect: 'none',
+            }}
+          />
+          {showEmptySlateIncomingPara ? (
+            <p>{children}</p>
+          ) : (
+            <div
+              style={{
+                marginBottom: '0.75rem',
+              }}
+            ></div>
+          )}
+        </div>
+      )
     default:
       return <p {...attributes}>{children}</p>
   }
@@ -178,8 +208,6 @@ const Leaf = ({ attributes, children, leaf }: LeafProps) => {
   return <span {...attributes}>{children}</span>
 }
 
-export { Toolbars }
-// export types
-export { Descendant }
+export { Toolbars, slateToMd, mdToSlate }
 
 export default Slite
