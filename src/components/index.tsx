@@ -107,7 +107,7 @@ export const BlockButton = ({ format, children }: ButtonProps) => {
       }
       toggleBlock(editor, format)
     },
-    [editor]
+    [editor, format]
   )
 
   return children({
@@ -125,7 +125,7 @@ export const MarkButton = ({ format, children }: MarkButtonProps) => {
       event.preventDefault()
       toggleMark(editor, format)
     },
-    [editor]
+    [editor, format]
   )
   return children({
     isActive,
