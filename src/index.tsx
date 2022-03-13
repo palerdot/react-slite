@@ -16,6 +16,7 @@ import {
 import { createEditor, Descendant } from 'slate'
 import { withHistory } from 'slate-history'
 import isHotkey from 'is-hotkey'
+import { get } from 'lodash-es'
 
 import {
   Leaf as LeafType,
@@ -158,6 +159,13 @@ const Element = ({ attributes, children, element }: ElementProps) => {
         </pre>
       )
     case FormatType.ThematicBreak:
+      console.log('porumai ... thematic children ??? ', children)
+      // ok ... we have a weird slate issue
+      // ref: https://github.com/ianstormtaylor/slate/issues/3421
+      // When incoming string -> slate has a thematic break,
+      // the children will have a react node with 'thematic_break' with
+      // break: false
+      const showEmptySlateIncomingPara = get(children, '[0].props.parent.break')
       return (
         <div>
           <div
@@ -168,7 +176,15 @@ const Element = ({ attributes, children, element }: ElementProps) => {
               userSelect: 'none',
             }}
           />
-          <p>{children}</p>
+          {showEmptySlateIncomingPara ? (
+            <p>{children}</p>
+          ) : (
+            <div
+              style={{
+                marginBottom: '0.75rem',
+              }}
+            ></div>
+          )}
         </div>
       )
     default:
