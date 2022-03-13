@@ -209,5 +209,7 @@ const Leaf = ({ attributes, children, leaf }: LeafProps) => {
 }
 
 export { Toolbars, slateToMd, mdToSlate }
+// export Slite Descendant type
+export { Descendant }
 
 export default Slite
