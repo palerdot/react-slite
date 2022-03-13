@@ -26,6 +26,7 @@ import {
 } from './utils/custom-types'
 import { toggleMark, Toolbars } from './components/'
 import { handleCodeBlockHighlight, CodeStatus, withShortcuts } from './utils/'
+import { mdToSlate, slateToMd } from './utils/markdown'
 
 type SliteContextValue = {
   onKeyDown: (event: KeyboardEvent<HTMLElement>) => void
@@ -207,8 +208,6 @@ const Leaf = ({ attributes, children, leaf }: LeafProps) => {
   return <span {...attributes}>{children}</span>
 }
 
-export { Toolbars }
-// export types
-export { Descendant }
+export { Toolbars, slateToMd, mdToSlate }
 
 export default Slite

@@ -25,11 +25,11 @@
   "size-limit": [
     {
       "path": "dist/react-slite.cjs.production.min.js",
-      "limit": "10 KB"
+      "limit": "150 KB"
     },
     {
       "path": "dist/react-slite.esm.js",
-      "limit": "10 KB"
+      "limit": "100 KB"
     }
   ],
   "scripts": {

@@ -2,9 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react'
 
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
-import { ElementType, HeadingType } from '../src/utils/custom-types'
-import Slite, { Editor } from '../src'
-import { mdToSlate, slateToMd } from '../src/utils/markdown'
+import Slite, { Editor, mdToSlate, slateToMd } from '../src'
 import { Toolbar } from './Slite.stories'
 
 const defaultText = `
@@ -24,7 +22,7 @@ function PreviewSlate({ md }: { md: string }) {
       setStatus(false)
       setTimeout(() => {
         setInitialValue(slateValue)
-        console.log('porumai ... updated slate tree ', slateValue)
+        // console.log('porumai ... updated slate tree ', slateValue)
         setStatus(true)
       }, 314)
     })
@@ -71,7 +69,7 @@ function MarkdownSlite() {
       <Slite
         initialValue={initialValue}
         onChange={(newValue) => {
-          console.log('porumai ... original slate ', newValue)
+          // console.log('porumai ... original slate ', newValue)
           slateToMd(newValue).then((s) => setFinalString(s))
         }}
       >
