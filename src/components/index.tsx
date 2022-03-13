@@ -23,12 +23,7 @@ export const toggleBlock = (editor: Editor, format: Format) => {
   const isList = isValidListType(format)
 
   Transforms.unwrapNodes(editor, {
-    match: (n) =>
-      !Editor.isEditor(n) &&
-      SlateElement.isElement(n) &&
-      // LIST_TYPES.includes(n.type),
-      // isValidListType(n.type),
-      true,
+    match: (n) => !Editor.isEditor(n) && SlateElement.isElement(n),
     split: true,
   })
   const newProperties: Partial<SlateElement> = {
