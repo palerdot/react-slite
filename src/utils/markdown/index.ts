@@ -62,11 +62,11 @@ const NEWLINE_TOKEN = '\r\n\r\n'
 
 export function mdToSlate(md: string): Promise<any> {
   const parsed = fromMarkdown(md.replaceAll(NEWLINE_TOKEN, `<br>`))
-  const output = parsed.children.map((v) => deserialize(v as any))
+  const output = parsed.children.map(v => deserialize(v as any))
 
   const finalSlateTree: any[] = []
 
-  output.forEach((v) => {
+  output.forEach(v => {
     const isList = get(v, 'type') === 'ul_list'
     if (isList) {
       const listChildren = get(v, 'children', [])
@@ -93,15 +93,15 @@ export function mdToSlate(md: string): Promise<any> {
     children: [{ text: '' }],
   })
 
-  return new Promise((resolve) => {
+  return new Promise(resolve => {
     resolve(finalSlateTree)
   })
 }
 
 export function slateToMd(nodes: Descendant[]): Promise<string> {
-  return new Promise((resolve) => {
+  return new Promise(resolve => {
     const parsed: string[] = []
-    nodes.forEach((v) => {
+    nodes.forEach(v => {
       // list item handling
       // wrap children inside paragraphs
       const isList = get(v, 'type') === 'ul_list'
@@ -131,7 +131,7 @@ export function slateToMd(nodes: Descendant[]): Promise<string> {
       // if paragraph, we will trim all the child {text: '\n'}
       if (isParagraph) {
         // @ts-ignore
-        const paraChildren = v.children.filter((x) => {
+        const paraChildren = v.children.filter(x => {
           const emptyLine = x && x.text && x.text === '\n'
 
           return !emptyLine

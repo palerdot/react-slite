@@ -18,7 +18,7 @@ function PreviewSlate({ md }: { md: string }) {
   const [status, setStatus] = useState(false)
 
   const refreshSlate = useCallback(() => {
-    mdToSlate(md).then((slateValue) => {
+    mdToSlate(md).then(slateValue => {
       setStatus(false)
       setTimeout(() => {
         setInitialValue(slateValue)
@@ -41,7 +41,7 @@ function PreviewSlate({ md }: { md: string }) {
       </div>
       {status && (
         <div>
-          <Slite initialValue={initialValue} onChange={(newValue) => {}}>
+          <Slite initialValue={initialValue} onChange={newValue => {}}>
             <Editor readOnly={true} />
           </Slite>
         </div>
@@ -55,7 +55,7 @@ function MarkdownSlite() {
   const [finalString, setFinalString] = useState('')
 
   useEffect(() => {
-    mdToSlate(defaultText).then((slateValue) => {
+    mdToSlate(defaultText).then(slateValue => {
       setInitialValue(slateValue)
     })
   }, [])
@@ -68,9 +68,9 @@ function MarkdownSlite() {
     <div>
       <Slite
         initialValue={initialValue}
-        onChange={(newValue) => {
+        onChange={newValue => {
           // console.log('porumai ... original slate ', newValue)
-          slateToMd(newValue).then((s) => setFinalString(s))
+          slateToMd(newValue).then(s => setFinalString(s))
         }}
       >
         <Toolbar />

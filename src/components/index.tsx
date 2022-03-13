@@ -23,7 +23,7 @@ export const toggleBlock = (editor: Editor, format: Format) => {
   const isList = isValidListType(format)
 
   Transforms.unwrapNodes(editor, {
-    match: (n) => !Editor.isEditor(n) && SlateElement.isElement(n),
+    match: n => !Editor.isEditor(n) && SlateElement.isElement(n),
     split: true,
   })
   const newProperties: Partial<SlateElement> = {
@@ -58,7 +58,7 @@ export const isBlockActive = (editor: Editor, format: Format) => {
   const [match] = Array.from(
     Editor.nodes(editor, {
       at: Editor.unhangRange(editor, selection),
-      match: (n) =>
+      match: n =>
         !Editor.isEditor(n) && SlateElement.isElement(n) && n.type === format,
     })
   )

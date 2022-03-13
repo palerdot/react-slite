@@ -162,13 +162,13 @@ function isValidShortcutType(type: string): type is ShortcutKey {
 export const withShortcuts = (editor: Editor) => {
   const { deleteBackward, insertText } = editor
 
-  editor.insertText = (text) => {
+  editor.insertText = text => {
     const { selection } = editor
 
     if (selection && Range.isCollapsed(selection)) {
       const { anchor } = selection
       const block = Editor.above(editor, {
-        match: (n) => Editor.isBlock(editor, n),
+        match: n => Editor.isBlock(editor, n),
       })
       const path = block ? block[1] : []
       const start = Editor.start(editor, path)
@@ -189,7 +189,7 @@ export const withShortcuts = (editor: Editor) => {
           type,
         }
         Transforms.setNodes<SlateElement>(editor, newProperties, {
-          match: (n) => Editor.isBlock(editor, n),
+          match: n => Editor.isBlock(editor, n),
         })
 
         if (type === FormatType.ListItem) {
@@ -198,7 +198,7 @@ export const withShortcuts = (editor: Editor) => {
             children: [],
           }
           Transforms.wrapNodes(editor, list, {
-            match: (n) =>
+            match: n =>
               !Editor.isEditor(n) &&
               SlateElement.isElement(n) &&
               n.type === FormatType.ListItem,
@@ -217,7 +217,7 @@ export const withShortcuts = (editor: Editor) => {
 
     if (selection && Range.isCollapsed(selection)) {
       const match = Editor.above(editor, {
-        match: (n) => Editor.isBlock(editor, n),
+        match: n => Editor.isBlock(editor, n),
       })
 
       if (match) {
@@ -237,7 +237,7 @@ export const withShortcuts = (editor: Editor) => {
 
           if (block.type === FormatType.ListItem) {
             Transforms.unwrapNodes(editor, {
-              match: (n) =>
+              match: n =>
                 !Editor.isEditor(n) &&
                 SlateElement.isElement(n) &&
                 n.type === FormatType.BulletList,

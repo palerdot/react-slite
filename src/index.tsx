@@ -33,7 +33,7 @@ type SliteContextValue = {
 }
 
 const defaultContextValue: SliteContextValue = {
-  onKeyDown: (event) => {
+  onKeyDown: event => {
     console.log('porumai ... default keydown ???', event)
   },
 }
@@ -116,7 +116,7 @@ function Slite({ initialValue, onChange, children }: Props) {
       <Slate
         editor={editor}
         value={value}
-        onChange={(value) => {
+        onChange={value => {
           setValue(value)
           // update onchange handler with new value
           onChange(value)
