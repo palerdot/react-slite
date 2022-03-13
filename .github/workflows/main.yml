@@ -13,6 +13,9 @@ jobs:
     steps:
       - name: Checkout repo and Cache pnpm modules
         uses: actions/checkout@v2
+
+      - name: Cache pnpm modules
+        uses: actions/cache@v2
         with:
           path: ~/.pnpm-store
           key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
