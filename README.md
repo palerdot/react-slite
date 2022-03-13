@@ -4,6 +4,8 @@
 
 This react component provides a slack like rich text editing experience powered by slate.js. This project is currently in alpha stage and used internally for [Remindoro extension](https://palerdot.in/remindoro).
 
+NOTE: This project uses `pnpm/vitest`
+
 ## TSDX React w/ Storybook User Guide
 
 Congrats! You just saved yourself hours of work by bootstrapping this project with TSDX. Let’s get you oriented with what’s here and how to use it.

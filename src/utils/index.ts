@@ -148,7 +148,7 @@ export const SHORTCUTS = {
   '##### ': HeadingType.Five,
   '###### ': HeadingType.Six,
   '{{ ': ElementType.CodeBlock,
-  '-----': ElementType.ThematicBreak,
+  '--- ': ElementType.ThematicBreak,
 }
 
 export type ShortcutKey = keyof typeof SHORTCUTS
