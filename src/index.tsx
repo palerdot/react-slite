@@ -159,7 +159,6 @@ const Element = ({ attributes, children, element }: ElementProps) => {
         </pre>
       )
     case FormatType.ThematicBreak:
-      console.log('porumai ... thematic children ??? ', children)
       // ok ... we have a weird slate issue
       // ref: https://github.com/ianstormtaylor/slate/issues/3421
       // When incoming string -> slate has a thematic break,
