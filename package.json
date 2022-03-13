@@ -35,7 +35,8 @@
   "scripts": {
     "start": "tsdx watch",
     "build": "tsdx build",
-    "test": "jest",
+    "test": "vitest",
+    "test:jest": "jest",
     "test:tsdx": "tsdx test --passWithNoTests",
     "lint": "tsdx lint",
     "prepare": "tsdx build",
@@ -45,10 +46,6 @@
     "build-storybook": "build-storybook"
   },
   "devDependencies": {
-    "@babel/core": "^7.17.5",
-    "@babel/preset-env": "^7.16.11",
-    "@babel/preset-react": "^7.16.7",
-    "@babel/preset-typescript": "^7.16.7",
     "@size-limit/preset-small-lib": "^7.0.8",
     "@storybook/addon-essentials": "^6.4.19",
     "@storybook/addon-info": "^5.3.21",
@@ -58,17 +55,17 @@
     "@types/lodash-es": "^4.17.6",
     "@types/react": "^17.0.39",
     "@types/react-dom": "^17.0.11",
-    "babel-jest": "^27.5.1",
     "babel-loader": "^8.2.3",
+    "happy-dom": "^2.46.3",
     "husky": "^7.0.4",
-    "lodash": "^4.17.21",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-is": "^17.0.2",
     "size-limit": "^7.0.8",
     "tsdx": "^0.14.1",
     "tslib": "^2.3.1",
-    "typescript": "^4.5.5"
+    "typescript": "^4.5.5",
+    "vitest": "^0.6.0"
   },
   "dependencies": {
     "is-hotkey": "^0.2.0",
