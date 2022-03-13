@@ -36,8 +36,6 @@
     "start": "tsdx watch",
     "build": "tsdx build",
     "test": "vitest",
-    "test:jest": "jest",
-    "test:tsdx": "tsdx test --passWithNoTests",
     "lint": "tsdx lint",
     "prepare": "tsdx build",
     "size": "size-limit",
