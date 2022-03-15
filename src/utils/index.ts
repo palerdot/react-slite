@@ -136,6 +136,8 @@ export function handleCodeBlockHighlight({
   }
 }
 
+const THEMATIC_BREAK_SHORTCUT = '--- '
+
 export const SHORTCUTS = {
   '* ': ElementType.ListItem,
   '- ': ElementType.ListItem,
@@ -148,7 +150,7 @@ export const SHORTCUTS = {
   '##### ': HeadingType.Five,
   '###### ': HeadingType.Six,
   '{{ ': ElementType.CodeBlock,
-  '--- ': ElementType.ThematicBreak,
+  [THEMATIC_BREAK_SHORTCUT]: ElementType.ThematicBreak,
 }
 
 export type ShortcutKey = keyof typeof SHORTCUTS
@@ -182,6 +184,11 @@ export const withShortcuts = (editor: Editor) => {
       const currentText = beforeText + text
 
       if (isValidShortcutType(currentText)) {
+        // special break for thematic break
+        if (currentText === THEMATIC_BREAK_SHORTCUT) {
+          editor.insertBreak()
+        }
+
         const type = SHORTCUTS[currentText]
         Transforms.select(editor, range)
         Transforms.delete(editor)
