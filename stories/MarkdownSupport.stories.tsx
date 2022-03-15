@@ -22,7 +22,13 @@ function PreviewSlate({ md }: { md: string }) {
       setStatus(false)
       setTimeout(() => {
         setInitialValue(slateValue)
-        // console.log('porumai ... updated slate tree ', slateValue)
+        // slateToMd(slateValue).then(againString => {
+        //   console.log(
+        //     'porumai ... updated slate tree and string',
+        //     slateValue,
+        //     JSON.stringify(againString)
+        //   )
+        // })
         setStatus(true)
       }, 314)
     })

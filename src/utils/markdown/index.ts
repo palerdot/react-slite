@@ -195,7 +195,12 @@ export function slateToMd(nodes: Descendant[]): Promise<string> {
       // do not proceed
       return
     })
-    const finalMd = parsed.join('').replaceAll('<br>', NEWLINE_TOKEN).trim()
+    const finalMd = parsed
+      .join('')
+      .replaceAll('<br>', NEWLINE_TOKEN)
+      // weird new line handling
+      .replaceAll(`\n${NEWLINE_TOKEN}`, NEWLINE_TOKEN)
+      .trim()
 
     return resolve(finalMd)
   })
