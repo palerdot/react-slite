@@ -31,9 +31,8 @@ p[data-slate-node='element']:not(:first-child) {
 }
 
 .thematic_break {
-  border: none;
-  height: 2px;
-  background-color: steelblue;
+  border-top: thin solid steelblue;
+  padding-top: 2px;
 }
 
 pre.codeblock {
