@@ -199,6 +199,14 @@ export const withShortcuts = (editor: Editor) => {
           match: n => Editor.isBlock(editor, n),
         })
 
+        // add a new paragraph for thematic break
+        if (currentText === THEMATIC_BREAK_SHORTCUT) {
+          editor.insertNode({
+            type: FormatType.Paragraph,
+            children: [{ text: '' }],
+          })
+        }
+
         if (type === FormatType.ListItem) {
           const list: BulletedListElement = {
             type: ElementType.BulletList,

@@ -34,6 +34,13 @@ export const toggleBlock = (editor: Editor, format: Format) => {
       : format,
   }
   Transforms.setNodes<SlateElement>(editor, newProperties)
+  // IMPORTANT: Insert a new paragraph so Slate does not hang
+  if (format === FormatType.ThematicBreak) {
+    editor.insertNode({
+      type: FormatType.Paragraph,
+      children: [{ text: '' }],
+    })
+  }
 
   if (!isActive && isList) {
     const block = { type: format as ListType, children: [] }
