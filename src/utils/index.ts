@@ -184,7 +184,7 @@ export const withShortcuts = (editor: Editor) => {
       const currentText = beforeText + text
 
       if (isValidShortcutType(currentText)) {
-        // special break for thematic break
+        // special START break for thematic break
         if (currentText === THEMATIC_BREAK_SHORTCUT) {
           editor.insertBreak()
         }

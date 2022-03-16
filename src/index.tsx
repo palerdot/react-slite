@@ -165,27 +165,11 @@ const Element = ({ attributes, children, element }: ElementProps) => {
       // When incoming string -> slate has a thematic break,
       // the children will have a react node with 'thematic_break' with
       // break: false
-      const showEmptySlateIncomingPara = get(children, '[0].props.parent.break')
+      const isEditMode = get(children, '[0].props.parent.break')
       return (
-        <div>
-          <div
-            className="thematic_break"
-            // {...attributes}
-            contentEditable={false}
-            style={{
-              userSelect: 'none',
-            }}
-          />
-          {showEmptySlateIncomingPara ? (
-            <p>{children}</p>
-          ) : (
-            <div
-              style={{
-                marginBottom: '0.75rem',
-              }}
-            ></div>
-          )}
-        </div>
+        <p {...attributes} className={'thematic_break'}>
+          {isEditMode ? children : null}
+        </p>
       )
     default:
       return <p {...attributes}>{children}</p>

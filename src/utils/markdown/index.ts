@@ -58,7 +58,7 @@ function unwrapListItems(listChildren: any[]) {
 // newline token; <br> tag will be replaced with this for better readability
 // and to maintain new lines (md format does not allow more than one new lines)
 // IMPORTANT: CRLF (\r\n) is used so that is not messed up with remark slate \n\n
-const NEWLINE_TOKEN = '\r\n\r\n'
+const NEWLINE_TOKEN = '\r\n'
 
 export function mdToSlate(md: string): Promise<any> {
   const parsed = fromMarkdown(md.replaceAll(NEWLINE_TOKEN, `<br>`))
@@ -198,8 +198,12 @@ export function slateToMd(nodes: Descendant[]): Promise<string> {
     const finalMd = parsed
       .join('')
       .replaceAll('<br>', NEWLINE_TOKEN)
-      // weird new line handling
-      .replaceAll(`\n${NEWLINE_TOKEN}`, NEWLINE_TOKEN)
+      // IMPORTANT: Thematic Break Inception bug!!!
+      // thematic break + remark-slate leads to cascading new lines
+      .replaceAll(
+        `${NEWLINE_TOKEN}\n\n${NEWLINE_TOKEN}\n\n`,
+        `${NEWLINE_TOKEN}\n\n`
+      )
       .trim()
 
     return resolve(finalMd)
