@@ -1,6 +1,6 @@
-import React, { FC } from 'react'
+import React from 'react'
 
-const Slite: FC = () => {
+function Slite() {
   return <div>{'porumai ... wait and hope ... lexical powered slite ... '}</div>
 }
 
