@@ -1,7 +1,14 @@
 import React from 'react'
 
+import Editor from './Editor'
+import './styles.css'
+
 function Slite() {
-  return <div>{'porumai ... wait and hope ... lexical powered slite ... '}</div>
+  return (
+    <div>
+      <Editor />
+    </div>
+  )
 }
 
 export default Slite
