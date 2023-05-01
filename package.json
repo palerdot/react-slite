@@ -8,8 +8,7 @@
   "repository": "https://github.com/palerdot/react-slite",
   "module": "dist/react-slite.esm.js",
   "files": [
-    "dist",
-    "src"
+    "dist"
   ],
   "engines": {
     "node": ">=14"
