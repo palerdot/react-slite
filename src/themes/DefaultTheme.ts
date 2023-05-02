@@ -1,4 +1,4 @@
-const exampleTheme = {
+const defaultTheme = {
   ltr: 'ltr',
   rtl: 'rtl',
   placeholder: 'editor-placeholder',
@@ -66,4 +66,4 @@ const exampleTheme = {
   },
 }
 
-export default exampleTheme
+export default defaultTheme

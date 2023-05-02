@@ -1,4 +1,5 @@
 import { LexicalComposer } from '@lexical/react/LexicalComposer'
+import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin'
 import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin'
 import { ContentEditable } from '@lexical/react/LexicalContentEditable'
 import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin'
@@ -12,20 +13,28 @@ import { ListPlugin } from '@lexical/react/LexicalListPlugin'
 import { TableCellNode, TableNode, TableRowNode } from '@lexical/table'
 import { AutoLinkNode, LinkNode } from '@lexical/link'
 import { MarkdownShortcutPlugin } from '@lexical/react/LexicalMarkdownShortcutPlugin'
-import { TRANSFORMERS } from '@lexical/markdown'
+import { $convertToMarkdownString, TRANSFORMERS } from '@lexical/markdown'
 
 import ToolbarPlugin from './plugins/ToolbarPlugin'
 import ListMaxIndentLevelPlugin from './plugins/ListMaxIndentLevelPlugin'
 import CodeHighlightPlugin from './plugins/CodeHighlightPlugin'
-import ExampleTheme from './themes/ExampleTheme'
+import DefaultTheme from './themes/DefaultTheme'
 
 function Placeholder() {
   return <div className="editor-placeholder">{'Enter some rich text ...'}</div>
 }
 
+// ref: https://stackoverflow.com/questions/71976652/with-lexical-how-do-i-set-default-initial-text
+const onChange = editorState => {
+  editorState.read(() => {
+    const markdown = $convertToMarkdownString(TRANSFORMERS)
+    // console.log(markdown)
+  })
+}
+
 const editorConfig = {
   // The editor theme
-  theme: ExampleTheme,
+  theme: DefaultTheme,
   // Handling of errors during update
   onError(error) {
     throw error
@@ -49,7 +58,8 @@ const editorConfig = {
 export default function Editor() {
   return (
     <LexicalComposer initialConfig={editorConfig}>
-      <div className="editor-container">
+      <OnChangePlugin onChange={onChange} />
+      <div className="slite-editor-container">
         <ToolbarPlugin />
         <div className="editor-inner">
           <RichTextPlugin
