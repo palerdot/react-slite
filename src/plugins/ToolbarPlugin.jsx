@@ -410,7 +410,7 @@ function BlockOptionsDropdownList({
   }
 
   return (
-    <div className="dropdown" ref={dropDownRef}>
+    <div className="slite-dropdown" ref={dropDownRef}>
       {/* Paragraph */}
       <button className="item" onClick={formatParagraph}>
         <span className="icon paragraph">
