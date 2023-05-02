@@ -34,3 +34,12 @@ export const InitialText: Story = {
     onChange: () => {},
   },
 }
+
+export const ReadOnly: Story = {
+  name: 'Read Only editor',
+  args: {
+    initialText: `This is a readonly editor`,
+    onChange: () => {},
+    readOnly: true,
+  },
+}

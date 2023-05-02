@@ -2,13 +2,11 @@ import { LexicalComposer } from '@lexical/react/LexicalComposer'
 import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin'
 import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin'
 import { ContentEditable } from '@lexical/react/LexicalContentEditable'
-import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin'
 import { AutoFocusPlugin } from '@lexical/react/LexicalAutoFocusPlugin'
 import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary'
 import { HeadingNode, QuoteNode } from '@lexical/rich-text'
 import { ListItemNode, ListNode } from '@lexical/list'
 import { CodeHighlightNode, CodeNode } from '@lexical/code'
-import { LinkPlugin } from '@lexical/react/LexicalLinkPlugin'
 import { ListPlugin } from '@lexical/react/LexicalListPlugin'
 import { TableCellNode, TableNode, TableRowNode } from '@lexical/table'
 import { AutoLinkNode, LinkNode } from '@lexical/link'
@@ -28,10 +26,12 @@ import DefaultTheme, {
 } from './themes/DefaultTheme'
 
 import type { EditorState } from 'lexical'
+import type { InitialConfigType } from '@lexical/react/LexicalComposer'
 
 export interface SliteProps {
   initialText?: string
   onChange: (text: string) => void
+  readOnly?: boolean
 }
 
 function Placeholder() {
@@ -49,7 +49,10 @@ const onChangeHandler = (
   })
 }
 
-const getInitialConfig = (initialText: string) => {
+const getInitialConfig = (
+  initialText: string,
+  editable: boolean
+): InitialConfigType => {
   return {
     editorState: () => {
       // ref: https://stackoverflow.com/a/72172529/1410291
@@ -83,28 +86,39 @@ const getInitialConfig = (initialText: string) => {
       LinkNode,
     ],
     namespace: '',
+    editable,
   }
 }
 
-export default function Editor({ initialText, onChange }: SliteProps) {
+export default function Editor({
+  initialText,
+  onChange,
+  readOnly,
+}: SliteProps) {
+  const editable = !readOnly
+
   return (
-    <LexicalComposer initialConfig={getInitialConfig(initialText || '')}>
-      <OnChangePlugin
-        onChange={editorState => onChangeHandler(editorState, onChange)}
-      />
+    <LexicalComposer
+      initialConfig={getInitialConfig(initialText || '', editable)}
+    >
+      {editable ? (
+        <OnChangePlugin
+          onChange={editorState => onChangeHandler(editorState, onChange)}
+        />
+      ) : (
+        ''
+      )}
       <div className={SLITE_EDITOR_CONTAINER_CLASS}>
-        <ToolbarPlugin />
+        {editable && <ToolbarPlugin />}
         <div className="editor-inner">
           <RichTextPlugin
             contentEditable={<ContentEditable className="editor-input" />}
             placeholder={<Placeholder />}
             ErrorBoundary={LexicalErrorBoundary}
           />
-          <HistoryPlugin />
           <AutoFocusPlugin />
           <CodeHighlightPlugin />
           <ListPlugin />
-          <LinkPlugin />
           <ListMaxIndentLevelPlugin maxDepth={1} />
           <MarkdownShortcutPlugin transformers={TRANSFORMERS} />
         </div>
