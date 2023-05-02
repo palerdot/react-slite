@@ -38,7 +38,7 @@ export const InitialText: Story = {
 export const ReadOnly: Story = {
   name: 'Read Only editor',
   args: {
-    initialText: `This is a readonly editor`,
+    initialText: 'porumai ... wait and hope ... `readonly` editor',
     onChange: () => {},
     readOnly: true,
   },
