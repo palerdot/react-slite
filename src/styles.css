@@ -174,21 +174,24 @@ h1 {
 
 .editor-heading-h1 {
   font-size: 24px;
-  color: rgb(5, 5, 5);
-  font-weight: 400;
-  margin: 0;
-  margin-bottom: 12px;
+  color: rgb(101, 103, 107);
+  font-weight: 600;
   padding: 0;
 }
 
 .editor-heading-h2 {
-  font-size: 15px;
+  font-size: 20px;
   color: rgb(101, 103, 107);
-  font-weight: 700;
-  margin: 0;
-  margin-top: 10px;
+  font-weight: 600;
   padding: 0;
-  text-transform: uppercase;
+}
+
+
+.editor-heading-h3 {
+  font-size: 16px;
+  color: rgb(101, 103, 107);
+  font-weight: 600;
+  padding: 0;
 }
 
 .editor-quote {
@@ -349,7 +352,6 @@ i.chevron-down {
   display: inline-block;
   height: 8px;
   width: 8px;
-  background-image: url(images/icons/chevron-down.svg);
 }
 
 #block-controls button:hover {
@@ -366,34 +368,6 @@ i.chevron-down {
   width: 18px;
   height: 18px;
   margin: 2px;
-}
-
-#block-controls span.block-type.paragraph {
-  background-image: url(images/icons/text-paragraph.svg);
-}
-
-#block-controls span.block-type.h1 {
-  background-image: url(images/icons/type-h1.svg);
-}
-
-#block-controls span.block-type.h2 {
-  background-image: url(images/icons/type-h2.svg);
-}
-
-#block-controls span.block-type.quote {
-  background-image: url(images/icons/chat-square-quote.svg);
-}
-
-#block-controls span.block-type.ul {
-  background-image: url(images/icons/list-ul.svg);
-}
-
-#block-controls span.block-type.ol {
-  background-image: url(images/icons/list-ol.svg);
-}
-
-#block-controls span.block-type.code {
-  background-image: url(images/icons/code.svg);
 }
 
 .dropdown {
@@ -460,80 +434,6 @@ i.chevron-down {
   margin-right: 12px;
   line-height: 16px;
   background-size: contain;
-}
-
-
-
-.icon.paragraph {
-  background-image: url(images/icons/text-paragraph.svg);
-}
-
-.icon.large-heading,
-.icon.h1 {
-  background-image: url(images/icons/type-h1.svg);
-}
-
-.icon.small-heading,
-.icon.h2 {
-  background-image: url(images/icons/type-h2.svg);
-}
-
-.icon.bullet-list,
-.icon.ul {
-  background-image: url(images/icons/list-ul.svg);
-}
-
-.icon.numbered-list,
-.icon.ol {
-  background-image: url(images/icons/list-ol.svg);
-}
-
-.icon.quote {
-  background-image: url(images/icons/chat-square-quote.svg);
-}
-
-.icon.code {
-  background-image: url(images/icons/code.svg);
-}
-
-i.bold {
-  background-image: url(images/icons/type-bold.svg);
-}
-
-i.italic {
-  background-image: url(images/icons/type-italic.svg);
-}
-
-i.underline {
-  background-image: url(images/icons/type-underline.svg);
-}
-
-i.strikethrough {
-  background-image: url(images/icons/type-strikethrough.svg);
-}
-
-i.code {
-  background-image: url(images/icons/code.svg);
-}
-
-i.link {
-  background-image: url(images/icons/link.svg);
-}
-
-i.left-align {
-  background-image: url(images/icons/text-left.svg);
-}
-
-i.center-align {
-  background-image: url(images/icons/text-center.svg);
-}
-
-i.right-align {
-  background-image: url(images/icons/text-right.svg);
-}
-
-i.justify-align {
-  background-image: url(images/icons/justify.svg);
 }
 
 /* 

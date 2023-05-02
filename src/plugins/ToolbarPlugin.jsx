@@ -40,6 +40,27 @@ import {
   getCodeLanguages,
 } from '@lexical/code'
 
+import {
+  ParagraphIcon,
+  HeadingOneIcon,
+  HeadingTwoIcon,
+  HeadingThreeIcon,
+  BulletListIcon,
+  NumberedListIcon,
+  QuoteIcon,
+  CodeIcon,
+  BoldIcon,
+  UnderlineIcon,
+  StrikeThroughIcon,
+  ItalicIcon,
+  TextLeftIcon,
+  TextCenterIcon,
+  TextRightIcon,
+  JustifyIcon,
+  ChevronDownIcon,
+  getBlockTypeIcon,
+} from '../Icons'
+
 const LowPriority = 1
 
 const supportedBlockTypes = new Set([
@@ -48,6 +69,7 @@ const supportedBlockTypes = new Set([
   'code',
   'h1',
   'h2',
+  'h3',
   'ul',
   'ol',
 ])
@@ -55,8 +77,8 @@ const supportedBlockTypes = new Set([
 const blockTypeToBlockName = {
   code: 'Code Block',
   h1: 'Large Heading',
-  h2: 'Small Heading',
-  h3: 'Heading',
+  h2: 'Medium Heading',
+  h3: 'Small Heading',
   h4: 'Heading',
   h5: 'Heading',
   ol: 'Numbered List',
@@ -317,13 +339,26 @@ function BlockOptionsDropdownList({
     setShowBlockOptionsDropDown(false)
   }
 
-  const formatSmallHeading = () => {
+  const formatMediumHeading = () => {
     if (blockType !== 'h2') {
       editor.update(() => {
         const selection = $getSelection()
 
         if ($isRangeSelection(selection)) {
           $wrapNodes(selection, () => $createHeadingNode('h2'))
+        }
+      })
+    }
+    setShowBlockOptionsDropDown(false)
+  }
+
+  const formatSmallHeading = () => {
+    if (blockType !== 'h3') {
+      editor.update(() => {
+        const selection = $getSelection()
+
+        if ($isRangeSelection(selection)) {
+          $wrapNodes(selection, () => $createHeadingNode('h3'))
         }
       })
     }
@@ -376,38 +411,63 @@ function BlockOptionsDropdownList({
 
   return (
     <div className="dropdown" ref={dropDownRef}>
+      {/* Paragraph */}
       <button className="item" onClick={formatParagraph}>
-        <span className="icon paragraph" />
+        <span className="icon paragraph">
+          <ParagraphIcon />
+        </span>
         <span className="text">Normal</span>
         {blockType === 'paragraph' && <span className="active" />}
       </button>
+      {/* H1: Large Heading */}
       <button className="item" onClick={formatLargeHeading}>
-        <span className="icon large-heading" />
+        <span className="icon large-heading">
+          <HeadingOneIcon />
+        </span>
         <span className="text">Large Heading</span>
         {blockType === 'h1' && <span className="active" />}
       </button>
-      <button className="item" onClick={formatSmallHeading}>
-        <span className="icon small-heading" />
-        <span className="text">Small Heading</span>
+      {/* H2: Medium Heading */}
+      <button className="item" onClick={formatMediumHeading}>
+        <span className="icon medium-heading">
+          <HeadingTwoIcon />
+        </span>
+        <span className="text">Medium Heading</span>
         {blockType === 'h2' && <span className="active" />}
       </button>
+      {/* H3: Small Heading */}
+      <button className="item" onClick={formatSmallHeading}>
+        <span className="icon small-heading">
+          <HeadingThreeIcon />
+        </span>
+        <span className="text">Small Heading</span>
+        {blockType === 'h3' && <span className="active" />}
+      </button>
       <button className="item" onClick={formatBulletList}>
-        <span className="icon bullet-list" />
+        <span className="icon bullet-list">
+          <BulletListIcon />
+        </span>
         <span className="text">Bullet List</span>
         {blockType === 'ul' && <span className="active" />}
       </button>
       <button className="item" onClick={formatNumberedList}>
-        <span className="icon numbered-list" />
+        <span className="icon numbered-list">
+          <NumberedListIcon />
+        </span>
         <span className="text">Numbered List</span>
         {blockType === 'ol' && <span className="active" />}
       </button>
       <button className="item" onClick={formatQuote}>
-        <span className="icon quote" />
+        <span className="icon quote">
+          <QuoteIcon />
+        </span>
         <span className="text">Quote</span>
         {blockType === 'quote' && <span className="active" />}
       </button>
       <button className="item" onClick={formatCode}>
-        <span className="icon code" />
+        <span className="icon code">
+          <CodeIcon />
+        </span>
         <span className="text">Code Block</span>
         {blockType === 'code' && <span className="active" />}
       </button>
@@ -567,9 +627,13 @@ export default function ToolbarPlugin() {
             }
             aria-label="Formatting Options"
           >
-            <span className={'icon block-type ' + blockType} />
+            <span className={'icon block-type ' + blockType}>
+              {getBlockTypeIcon(blockType)}
+            </span>
             <span className="text">{blockTypeToBlockName[blockType]}</span>
-            <i className="chevron-down" />
+            <i className="chevron-down">
+              <ChevronDownIcon />
+            </i>
           </button>
           {showBlockOptionsDropDown &&
             createPortal(
@@ -592,7 +656,9 @@ export default function ToolbarPlugin() {
             options={codeLanguges}
             value={codeLanguage}
           />
-          <i className="chevron-down inside" />
+          <i className="chevron-down inside">
+            <ChevronDownIcon />
+          </i>
         </>
       ) : (
         <>
@@ -603,7 +669,9 @@ export default function ToolbarPlugin() {
             className={'toolbar-item spaced ' + (isBold ? 'active' : '')}
             aria-label="Format Bold"
           >
-            <i className="format bold" />
+            <i className="format bold">
+              <BoldIcon />
+            </i>
           </button>
           <button
             onClick={() => {
@@ -612,7 +680,9 @@ export default function ToolbarPlugin() {
             className={'toolbar-item spaced ' + (isItalic ? 'active' : '')}
             aria-label="Format Italics"
           >
-            <i className="format italic" />
+            <i className="format italic">
+              <ItalicIcon />
+            </i>
           </button>
           <button
             onClick={() => {
@@ -621,7 +691,9 @@ export default function ToolbarPlugin() {
             className={'toolbar-item spaced ' + (isUnderline ? 'active' : '')}
             aria-label="Format Underline"
           >
-            <i className="format underline" />
+            <i className="format underline">
+              <UnderlineIcon />
+            </i>
           </button>
           <button
             onClick={() => {
@@ -632,7 +704,9 @@ export default function ToolbarPlugin() {
             }
             aria-label="Format Strikethrough"
           >
-            <i className="format strikethrough" />
+            <i className="format strikethrough">
+              <StrikeThroughIcon />
+            </i>
           </button>
           <button
             onClick={() => {
@@ -641,7 +715,9 @@ export default function ToolbarPlugin() {
             className={'toolbar-item spaced ' + (isCode ? 'active' : '')}
             aria-label="Insert Code"
           >
-            <i className="format code" />
+            <i className="format code">
+              <CodeIcon />
+            </i>
           </button>
           {/* <button
             onClick={insertLink}
@@ -660,7 +736,9 @@ export default function ToolbarPlugin() {
             className="toolbar-item spaced"
             aria-label="Left Align"
           >
-            <i className="format left-align" />
+            <i className="format left-align">
+              <TextLeftIcon />
+            </i>
           </button>
           <button
             onClick={() => {
@@ -669,7 +747,9 @@ export default function ToolbarPlugin() {
             className="toolbar-item spaced"
             aria-label="Center Align"
           >
-            <i className="format center-align" />
+            <i className="format center-align">
+              <TextCenterIcon />
+            </i>
           </button>
           <button
             onClick={() => {
@@ -678,7 +758,9 @@ export default function ToolbarPlugin() {
             className="toolbar-item spaced"
             aria-label="Right Align"
           >
-            <i className="format right-align" />
+            <i className="format right-align">
+              <TextRightIcon />
+            </i>
           </button>
           <button
             onClick={() => {
@@ -687,7 +769,9 @@ export default function ToolbarPlugin() {
             className="toolbar-item"
             aria-label="Justify Align"
           >
-            <i className="format justify-align" />
+            <i className="format justify-align">
+              <JustifyIcon />
+            </i>
           </button>{' '}
         </>
       )}
