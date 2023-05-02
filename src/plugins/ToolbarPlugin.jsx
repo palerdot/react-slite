@@ -418,8 +418,8 @@ function BlockOptionsDropdownList({
 export default function ToolbarPlugin() {
   const [editor] = useLexicalComposerContext()
   const toolbarRef = useRef(null)
-  const [canUndo, setCanUndo] = useState(false)
-  const [canRedo, setCanRedo] = useState(false)
+  // const [canUndo, setCanUndo] = useState(false)
+  // const [canRedo, setCanRedo] = useState(false)
   const [blockType, setBlockType] = useState('paragraph')
   const [selectedElementKey, setSelectedElementKey] = useState(null)
   const [showBlockOptionsDropDown, setShowBlockOptionsDropDown] =
