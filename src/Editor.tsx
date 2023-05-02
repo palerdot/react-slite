@@ -120,7 +120,7 @@ export default function Editor({
           <CodeHighlightPlugin />
           <ListPlugin />
           <ListMaxIndentLevelPlugin maxDepth={1} />
-          <MarkdownShortcutPlugin transformers={TRANSFORMERS} />
+          {editable && <MarkdownShortcutPlugin transformers={TRANSFORMERS} />}
         </div>
       </div>
     </LexicalComposer>
