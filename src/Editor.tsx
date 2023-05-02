@@ -23,7 +23,9 @@ import { $createParagraphNode, $getRoot } from 'lexical'
 import ToolbarPlugin from './plugins/ToolbarPlugin'
 import ListMaxIndentLevelPlugin from './plugins/ListMaxIndentLevelPlugin'
 import CodeHighlightPlugin from './plugins/CodeHighlightPlugin'
-import DefaultTheme from './themes/DefaultTheme'
+import DefaultTheme, {
+  SLITE_EDITOR_CONTAINER_CLASS,
+} from './themes/DefaultTheme'
 
 import type { EditorState } from 'lexical'
 
@@ -90,7 +92,7 @@ export default function Editor({ initialText, onChange }: SliteProps) {
       <OnChangePlugin
         onChange={editorState => onChangeHandler(editorState, onChange)}
       />
-      <div className="slite-editor-container">
+      <div className={SLITE_EDITOR_CONTAINER_CLASS}>
         <ToolbarPlugin />
         <div className="editor-inner">
           <RichTextPlugin

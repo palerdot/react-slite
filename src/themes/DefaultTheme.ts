@@ -67,3 +67,5 @@ const defaultTheme = {
 }
 
 export default defaultTheme
+
+export const SLITE_EDITOR_CONTAINER_CLASS = 'slite-editor-container'
