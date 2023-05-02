@@ -27,15 +27,23 @@ import DefaultTheme from './themes/DefaultTheme'
 
 import type { EditorState } from 'lexical'
 
+export interface SliteProps {
+  initialText?: string
+  onChange: (text: string) => void
+}
+
 function Placeholder() {
   return <div className="editor-placeholder">{'Enter some rich text ...'}</div>
 }
 
 // ref: https://stackoverflow.com/questions/71976652/with-lexical-how-do-i-set-default-initial-text
-const onChange = (editorState: EditorState) => {
+const onChangeHandler = (
+  editorState: EditorState,
+  onChange: SliteProps['onChange']
+) => {
   editorState.read(() => {
     const markdown = $convertToMarkdownString(TRANSFORMERS)
-    console.log(markdown)
+    onChange(markdown)
   })
 }
 
@@ -76,10 +84,12 @@ const getInitialConfig = (initialText: string) => {
   }
 }
 
-export default function Editor() {
+export default function Editor({ initialText, onChange }: SliteProps) {
   return (
-    <LexicalComposer initialConfig={getInitialConfig('')}>
-      <OnChangePlugin onChange={onChange} />
+    <LexicalComposer initialConfig={getInitialConfig(initialText || '')}>
+      <OnChangePlugin
+        onChange={editorState => onChangeHandler(editorState, onChange)}
+      />
       <div className="slite-editor-container">
         <ToolbarPlugin />
         <div className="editor-inner">

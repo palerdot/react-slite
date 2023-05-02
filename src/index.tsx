@@ -1,10 +1,10 @@
-import Editor from './Editor'
+import Editor, { SliteProps } from './Editor'
 import './styles.css'
 
-function Slite() {
+function Slite({ initialText, onChange }: SliteProps) {
   return (
     <div>
-      <Editor />
+      <Editor initialText={initialText} onChange={onChange} />
     </div>
   )
 }

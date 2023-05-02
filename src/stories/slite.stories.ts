@@ -22,5 +22,15 @@ type Story = StoryObj<typeof Slite>
  */
 export const Default: Story = {
   name: 'Default Slite',
-  args: {},
+  args: {
+    onChange: () => {},
+  },
+}
+
+export const InitialText: Story = {
+  name: 'Slite with initial text',
+  args: {
+    initialText: `> porumai ... wait and hope !!!`,
+    onChange: () => {},
+  },
 }
