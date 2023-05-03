@@ -6,7 +6,7 @@
   "license": "MIT",
   "author": "palerdot<palerdot@gmail.com>",
   "repository": "https://github.com/palerdot/react-slite",
-  "module": "dist/react-slite.esm.js",
+  "module": "dist/react-slite.es.js",
   "files": [
     "dist"
   ],
@@ -21,25 +21,13 @@
       "pre-commit": "tsdx lint"
     }
   },
-  "size-limit": [
-    {
-      "path": "dist/react-slite.cjs.production.min.js",
-      "limit": "160 KB"
-    },
-    {
-      "path": "dist/react-slite.esm.js",
-      "limit": "110 KB"
-    }
-  ],
   "scripts": {
-    "start": "tsdx watch",
-    "build": "tsdx build",
+    "start": "vite",
+    "build": "tsc && vite build",
     "test": "vitest",
     "lint": "prettier --list-different src test",
     "lint:fix": "prettier --write src test",
-    "prepare": "tsdx build",
-    "size": "size-limit",
-    "analyze": "size-limit --why",
+    "prepare": "pnpm build",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
@@ -54,6 +42,7 @@
     "@storybook/testing-library": "^0.0.14-next.2",
     "@types/react": "^18.2.0",
     "@types/react-dom": "^18.2.1",
+    "@vitejs/plugin-react": "^4.0.0",
     "babel-loader": "^9.1.2",
     "happy-dom": "^9.10.1",
     "husky": "^8.0.3",
@@ -62,11 +51,9 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-is": "^18.2.0",
-    "size-limit": "^8.2.4",
     "storybook": "^7.0.7",
-    "tsdx": "^0.14.1",
-    "tslib": "^2.5.0",
     "typescript": "^5.0.4",
+    "vite": "^4.3.4",
     "vitest": "^0.30.1"
   },
   "dependencies": {
