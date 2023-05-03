@@ -7,11 +7,11 @@ import ThemeClassList, {
 
 export { ThemeClassList, SLITE_EDITOR_CONTAINER_CLASS }
 
-function Slite({ initialText, onChange, readOnly }: SliteProps) {
+function Slite({ initialValue, onChange, readOnly }: SliteProps) {
   return (
     <div>
       <Editor
-        initialText={initialText}
+        initialValue={initialValue}
         onChange={onChange}
         readOnly={readOnly}
       />

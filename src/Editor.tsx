@@ -29,7 +29,7 @@ import type { EditorState } from 'lexical'
 import type { InitialConfigType } from '@lexical/react/LexicalComposer'
 
 export interface SliteProps {
-  initialText?: string
+  initialValue?: string
   onChange: (text: string) => void
   readOnly?: boolean
 }
@@ -50,19 +50,19 @@ const onChangeHandler = (
 }
 
 const getInitialConfig = (
-  initialText: string,
+  initialValue: string,
   editable: boolean
 ): InitialConfigType => {
   return {
     editorState: () => {
       // ref: https://stackoverflow.com/a/72172529/1410291
       // ref: https://github.com/facebook/lexical/issues/2308#issuecomment-1382721253
-      if (initialText === '') {
+      if (initialValue === '') {
         const paragraph = $createParagraphNode()
         $getRoot().append(paragraph)
         paragraph.select()
       } else {
-        $convertFromMarkdownString(initialText, TRANSFORMERS)
+        $convertFromMarkdownString(initialValue, TRANSFORMERS)
       }
     },
     // The editor theme
@@ -91,7 +91,7 @@ const getInitialConfig = (
 }
 
 export default function Editor({
-  initialText,
+  initialValue,
   onChange,
   readOnly,
 }: SliteProps) {
@@ -99,7 +99,7 @@ export default function Editor({
 
   return (
     <LexicalComposer
-      initialConfig={getInitialConfig(initialText || '', editable)}
+      initialConfig={getInitialConfig(initialValue || '', editable)}
     >
       {editable ? (
         <OnChangePlugin

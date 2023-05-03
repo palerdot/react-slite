@@ -30,7 +30,7 @@ export const Default: Story = {
 export const InitialText: Story = {
   name: 'Slite with initial text',
   args: {
-    initialText: `> porumai ... wait and hope !!!`,
+    initialValue: `> porumai ... wait and hope !!!`,
     onChange: () => {},
   },
 }
@@ -38,7 +38,7 @@ export const InitialText: Story = {
 export const ReadOnly: Story = {
   name: 'Read Only editor',
   args: {
-    initialText: 'porumai ... wait and hope ... `readonly` editor',
+    initialValue: 'porumai ... wait and hope ... `readonly` editor',
     onChange: () => {},
     readOnly: true,
   },
