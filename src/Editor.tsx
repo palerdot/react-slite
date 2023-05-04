@@ -126,8 +126,6 @@ export default function LexicalWrapper({
           />
         )}
         {editable && <MarkdownShortcutPlugin transformers={TRANSFORMERS} />}
-        {/* {editable && <ToolbarPlugin />}
-        <Editor /> */}
         {children}
       </div>
     </LexicalComposer>

@@ -7,7 +7,7 @@ import {
   // UNDO_COMMAND,
   SELECTION_CHANGE_COMMAND,
   FORMAT_TEXT_COMMAND,
-  FORMAT_ELEMENT_COMMAND,
+  // FORMAT_ELEMENT_COMMAND,
   $getSelection,
   $isRangeSelection,
   $createParagraphNode,
@@ -486,7 +486,7 @@ export default function ToolbarPlugin() {
     useState(false)
   const [codeLanguage, setCodeLanguage] = useState('')
   const [isRTL, setIsRTL] = useState(false)
-  const [isLink, setIsLink] = useState(false)
+  // const [isLink, setIsLink] = useState(false)
   const [isBold, setIsBold] = useState(false)
   const [isItalic, setIsItalic] = useState(false)
   const [isUnderline, setIsUnderline] = useState(false)
@@ -729,7 +729,7 @@ export default function ToolbarPlugin() {
           {isLink &&
             createPortal(<FloatingLinkEditor editor={editor} />, document.body)}
           <Divider /> */}
-          <button
+          {/* <button
             onClick={() => {
               editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'left')
             }}
@@ -772,7 +772,7 @@ export default function ToolbarPlugin() {
             <i className="format justify-align">
               <JustifyIcon />
             </i>
-          </button>{' '}
+          </button> */}
         </>
       )}
     </div>
