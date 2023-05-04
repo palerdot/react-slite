@@ -1,5 +1,10 @@
 # `react-slite`
 
+## `0.2.0`
+- [lexical](https://github.com/facebook/lexical) powered `react-slite`.
+
+-------------
+
 ## `0.1.5`
 - Handle thematic break hanging when clicked on toolbar by adding new para after thematic break.
 
