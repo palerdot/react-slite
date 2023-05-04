@@ -9,13 +9,22 @@ NOTE: Starting `v0.2.0`, `react-slite` is powered by [lexical](https://github.co
 ### Usage
 
 ```javascript
-import Slite, {ThemeClassList, SLITE_EDITOR_CONTAINER_CLASS} from 'react-slite'
+import Slite, { Toolbar, Editor, SliteProps, ThemeClassList, SLITE_EDITOR_CONTAINER_CLASS } from '../index'
 
-<Slite 
-  initialValue={`your initial markdown string`}
-  onChange={(currentMarkdown) => {}}
-  readOnly={false}
-/>
+function SliteWrapper({ initialValue, onChange, readOnly }: SliteProps) {
+  return (
+    <Slite
+      initialValue={`your initial markdown string`}
+      onChange={(currentMarkdown) => {}}
+      readOnly={false}
+    >
+      {/* decide if and how you want to display the toolbar */}
+      {!readOnly && <Toolbar />}
+      {/* editor text area */}
+      <Editor />
+    </Slite>
+  )
+}
 
 // ThemeClassList has all the classes used within the rich text editor
 // SLITE_EDITOR_CONTAINER_CLASS exports the container class name, which is `slite-container`
