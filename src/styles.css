@@ -21,7 +21,7 @@ h1 {
   text-align: left;
 
   background: #eee;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, ".SFNSText-Regular",
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, '.SFNSText-Regular',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -88,7 +88,6 @@ h1 {
   color: rgb(33, 111, 219);
   text-decoration: none;
 }
-
 
 .editor-code {
   background-color: rgb(240, 242, 245);
@@ -185,7 +184,6 @@ h1 {
   font-weight: 600;
   padding: 0;
 }
-
 
 .editor-heading-h3 {
   font-size: 16px;
@@ -435,4 +433,3 @@ i.chevron-down {
   line-height: 16px;
   background-size: contain;
 }
-
