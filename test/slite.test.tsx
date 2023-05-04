@@ -1,12 +1,13 @@
 import React from 'react'
-import * as ReactDOM from 'react-dom'
+import { createRoot } from 'react-dom/client'
+import { describe, test } from 'vitest'
 
-import Slite from '../src/'
+import Slite, { Editor } from '../src/'
 
 function DefaultSlite() {
   return (
-    <Slite initialValue={[]} onChange={() => {}}>
-      {null}
+    <Slite initialValue={``} onChange={() => {}}>
+      <Editor />
     </Slite>
   )
 }
@@ -14,7 +15,8 @@ function DefaultSlite() {
 describe('Slite', () => {
   test('render without crashing', () => {
     const div = document.createElement('div')
-    ReactDOM.render(<DefaultSlite />, div)
-    ReactDOM.unmountComponentAtNode(div)
+    const root = createRoot(div) // createRoot(container!) if you use TypeScript
+    root.render(<DefaultSlite />)
+    root.unmount()
   })
 })
