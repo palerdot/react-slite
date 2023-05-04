@@ -1,11 +1,18 @@
 import { resolve } from 'path'
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import dts from 'vite-plugin-dts'
+import cssInjectedByJsPlugin from 'vite-plugin-css-injected-by-js'
 
 // ref: https://vitejs.dev/guide/build.html#library-mode
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  resolve: {
+    // ref: https://github.com/vitejs/vite/issues/1401#issuecomment-755594141
+    // ref: https://vitejs.dev/config/shared-options.html#resolve-dedupe
+    dedupe: ['react', 'react-dom'],
+  },
+  plugins: [react(), dts(), cssInjectedByJsPlugin()],
   build: {
     lib: {
       formats: ['es', 'cjs'],
