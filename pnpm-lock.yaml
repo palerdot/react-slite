@@ -93,6 +93,9 @@ devDependencies:
   storybook:
     specifier: ^7.0.7
     version: 7.0.7
+  tslib:
+    specifier: ^2.5.0
+    version: 2.5.0
   typescript:
     specifier: ^5.0.4
     version: 5.0.4

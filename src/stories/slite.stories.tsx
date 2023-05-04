@@ -1,6 +1,15 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
-import Slite from '../index'
+import Slite, { Toolbar, Editor, SliteProps } from '../index'
+
+function SliteWrapper({ initialValue, onChange, readOnly }: SliteProps) {
+  return (
+    <Slite initialValue={initialValue} onChange={onChange} readOnly={readOnly}>
+      {!readOnly && <Toolbar />}
+      <Editor />
+    </Slite>
+  )
+}
 
 // ref: https://storybook.js.org/docs/react/writing-stories/introduction
 const meta: Meta<typeof Slite> = {
@@ -9,7 +18,7 @@ const meta: Meta<typeof Slite> = {
    * to learn how to generate automatic titles
    */
   title: 'Slite',
-  component: Slite,
+  component: SliteWrapper,
 }
 
 export default meta

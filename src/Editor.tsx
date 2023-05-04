@@ -32,6 +32,7 @@ export interface SliteProps {
   initialValue?: string
   onChange: (text: string) => void
   readOnly?: boolean
+  children: React.ReactNode
 }
 
 function Placeholder() {
@@ -90,10 +91,27 @@ const getInitialConfig = (
   }
 }
 
-export default function Editor({
+export function Editor() {
+  return (
+    <div className="editor-inner">
+      <RichTextPlugin
+        contentEditable={<ContentEditable className="editor-input" />}
+        placeholder={<Placeholder />}
+        ErrorBoundary={LexicalErrorBoundary}
+      />
+      <AutoFocusPlugin />
+      <CodeHighlightPlugin />
+      <ListPlugin />
+      <ListMaxIndentLevelPlugin maxDepth={1} />
+    </div>
+  )
+}
+
+export default function LexicalWrapper({
   initialValue,
   onChange,
   readOnly,
+  children,
 }: SliteProps) {
   const editable = !readOnly
 
@@ -101,28 +119,19 @@ export default function Editor({
     <LexicalComposer
       initialConfig={getInitialConfig(initialValue || '', editable)}
     >
-      {editable ? (
-        <OnChangePlugin
-          onChange={editorState => onChangeHandler(editorState, onChange)}
-        />
-      ) : (
-        ''
-      )}
       <div className={SLITE_EDITOR_CONTAINER_CLASS}>
-        {editable && <ToolbarPlugin />}
-        <div className="editor-inner">
-          <RichTextPlugin
-            contentEditable={<ContentEditable className="editor-input" />}
-            placeholder={<Placeholder />}
-            ErrorBoundary={LexicalErrorBoundary}
+        {editable && (
+          <OnChangePlugin
+            onChange={editorState => onChangeHandler(editorState, onChange)}
           />
-          <AutoFocusPlugin />
-          <CodeHighlightPlugin />
-          <ListPlugin />
-          <ListMaxIndentLevelPlugin maxDepth={1} />
-          {editable && <MarkdownShortcutPlugin transformers={TRANSFORMERS} />}
-        </div>
+        )}
+        {editable && <MarkdownShortcutPlugin transformers={TRANSFORMERS} />}
+        {/* {editable && <ToolbarPlugin />}
+        <Editor /> */}
+        {children}
       </div>
     </LexicalComposer>
   )
 }
+
+export { ToolbarPlugin }

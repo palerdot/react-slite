@@ -1,20 +1,29 @@
-import Editor, { SliteProps } from './Editor'
+import LexicalWrapper, { SliteProps, Editor, ToolbarPlugin } from './Editor'
 import './styles.css'
 
 import ThemeClassList, {
   SLITE_EDITOR_CONTAINER_CLASS,
 } from './themes/DefaultTheme'
 
-export { ThemeClassList, SLITE_EDITOR_CONTAINER_CLASS }
+export {
+  ThemeClassList,
+  SLITE_EDITOR_CONTAINER_CLASS,
+  Editor,
+  ToolbarPlugin as Toolbar,
+}
 
-function Slite({ initialValue, onChange, readOnly }: SliteProps) {
+export type { SliteProps }
+
+function Slite({ initialValue, onChange, readOnly, children }: SliteProps) {
   return (
     <div>
-      <Editor
+      <LexicalWrapper
         initialValue={initialValue}
         onChange={onChange}
         readOnly={readOnly}
-      />
+      >
+        {children}
+      </LexicalWrapper>
     </div>
   )
 }
