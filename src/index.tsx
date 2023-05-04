@@ -16,15 +16,13 @@ export type { SliteProps }
 
 function Slite({ initialValue, onChange, readOnly, children }: SliteProps) {
   return (
-    <div>
-      <LexicalWrapper
-        initialValue={initialValue}
-        onChange={onChange}
-        readOnly={readOnly}
-      >
-        {children}
-      </LexicalWrapper>
-    </div>
+    <LexicalWrapper
+      initialValue={initialValue}
+      onChange={onChange}
+      readOnly={readOnly}
+    >
+      {children}
+    </LexicalWrapper>
   )
 }
 
