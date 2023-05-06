@@ -84,10 +84,10 @@ h1 {
   font-size: 94%;
 }
 
-.editor-link {
+/* .editor-link {
   color: rgb(33, 111, 219);
   text-decoration: none;
-}
+} */
 
 .editor-code {
   background-color: rgb(240, 242, 245);
@@ -350,22 +350,6 @@ i.chevron-down {
   display: inline-block;
   height: 8px;
   width: 8px;
-}
-
-#block-controls button:hover {
-  background-color: #efefef;
-}
-
-#block-controls button:focus-visible {
-  border-color: blue;
-}
-
-#block-controls span.block-type {
-  background-size: contain;
-  display: block;
-  width: 18px;
-  height: 18px;
-  margin: 2px;
 }
 
 .slite-dropdown {
