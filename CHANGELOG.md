@@ -1,5 +1,11 @@
 # `react-slite`
 
+## `0.2.2`
+- Exporting dropdown class identifier
+
+## `0.2.1`
+- Dark theme for code block
+
 ## `0.2.0`
 - [lexical](https://github.com/facebook/lexical) powered `react-slite`.
 
