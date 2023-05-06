@@ -195,7 +195,9 @@ h1 {
 }
 
 .editor-tokenSelector {
-  color: #569cd6;
+  /* color: #569cd6; */
+  /* color: #4EC9B0; */
+  color: #fcf492;
 }
 
 .editor-tokenOperator {
