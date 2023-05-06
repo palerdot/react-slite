@@ -61,6 +61,8 @@ import {
   getBlockTypeIcon,
 } from '../Icons'
 
+import { SLITE_DROPDOWN_CLASS } from '../themes/DefaultTheme'
+
 const LowPriority = 1
 
 const supportedBlockTypes = new Set([
@@ -410,7 +412,7 @@ function BlockOptionsDropdownList({
   }
 
   return (
-    <div className="slite-dropdown" ref={dropDownRef}>
+    <div className={SLITE_DROPDOWN_CLASS} ref={dropDownRef}>
       {/* Paragraph */}
       <button className="item" onClick={formatParagraph}>
         <span className="icon paragraph">

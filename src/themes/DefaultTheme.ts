@@ -69,3 +69,4 @@ const defaultTheme = {
 export default defaultTheme
 
 export const SLITE_EDITOR_CONTAINER_CLASS = 'slite-editor-container'
+export const SLITE_DROPDOWN_CLASS = 'slite-dropdown'
