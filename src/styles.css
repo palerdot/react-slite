@@ -11,6 +11,56 @@ h1 {
   text-align: right;
 }
 
+/* START: Code Block 'Light' theme */
+
+.slite-editor-container.code-light .editor-code {
+  background-color: rgb(240, 242, 245);
+}
+
+.slite-editor-container.code-light .editor-code:before {
+  background-color: #eee;
+  border-right: 1px solid #ccc;
+  color: #777;
+}
+
+.slite-editor-container.code-light .editor-code:after {
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.slite-editor-container.code-light .editor-tokenComment {
+  color: slategray;
+}
+
+.slite-editor-container.code-light .editor-tokenPunctuation {
+  color: #999;
+}
+
+.slite-editor-container.code-light .editor-tokenProperty {
+  color: #905;
+}
+
+.slite-editor-container.code-light .editor-tokenSelector {
+  color: #690;
+}
+
+.slite-editor-container.code-light .editor-tokenOperator {
+  color: #9a6e3a;
+}
+
+.slite-editor-container.code-light .editor-tokenAttr {
+  color: #07a;
+}
+
+.slite-editor-container.code-light .editor-tokenVariable {
+  color: #e90;
+}
+
+.slite-editor-container.code-light .editor-tokenFunction {
+  color: #dd4a68;
+}
+
+/* END: Code Block 'Light' theme */
+
 .slite-editor-container {
   margin: 20px auto 20px auto;
   /* max-width: 600px; */
@@ -90,7 +140,10 @@ h1 {
 } */
 
 .editor-code {
-  background-color: rgb(240, 242, 245);
+  background-color: #1E1E1E;
+  color: #d4d4d4;
+  caret-color: #d4d4d4;
+
   font-family: Menlo, Consolas, Monaco, monospace;
   display: block;
   padding: 8px 8px 8px 52px;
@@ -108,12 +161,12 @@ h1 {
 .editor-code:before {
   content: attr(data-gutter);
   position: absolute;
-  background-color: #eee;
+  background-color: #404040;
   left: 0;
   top: 0;
-  border-right: 1px solid #ccc;
+  border-right: 1px solid #6B6B6B;
   padding: 8px;
-  color: #777;
+  color: #A6A6A6;
   white-space: pre-wrap;
   text-align: right;
   min-width: 25px;
@@ -126,39 +179,40 @@ h1 {
   font-size: 10px;
   text-transform: uppercase;
   position: absolute;
-  color: rgba(0, 0, 0, 0.5);
+  color: rgba(255, 255, 255, 0.95);
 }
 
 .editor-tokenComment {
-  color: slategray;
+  color: #6A9955;
 }
 
 .editor-tokenPunctuation {
-  color: #999;
+  color: #569cd6;
 }
 
 .editor-tokenProperty {
-  color: #905;
+  color: #9cdcfe;
 }
 
 .editor-tokenSelector {
-  color: #690;
+  color: #569cd6;
 }
 
 .editor-tokenOperator {
-  color: #9a6e3a;
+  color: #d4d4d4;
 }
 
 .editor-tokenAttr {
-  color: #07a;
+  color: #9cdcfe;
 }
 
 .editor-tokenVariable {
-  color: #e90;
+  color: #569cd6;
 }
 
 .editor-tokenFunction {
-  color: #dd4a68;
+  /* color: #d7ba7d; */
+  color: #f29d9d;
 }
 
 .editor-paragraph {
