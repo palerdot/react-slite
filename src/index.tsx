@@ -3,11 +3,13 @@ import './styles.css'
 
 import ThemeClassList, {
   SLITE_EDITOR_CONTAINER_CLASS,
+  SLITE_DROPDOWN_CLASS,
 } from './themes/DefaultTheme'
 
 export {
   ThemeClassList,
   SLITE_EDITOR_CONTAINER_CLASS,
+  SLITE_DROPDOWN_CLASS,
   Editor,
   ToolbarPlugin as Toolbar,
 }
