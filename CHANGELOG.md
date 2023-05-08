@@ -1,5 +1,10 @@
 # `react-slite`
 
+## `0.2.3`
+- Utils for handling soft breaks
+- `readOnly` prop for Editor component
+- Hiding placeholder for readonly mode
+
 ## `0.2.2`
 - Exporting dropdown class identifier
 
