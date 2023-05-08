@@ -140,7 +140,7 @@ h1 {
 } */
 
 .editor-code {
-  background-color: #1E1E1E;
+  background-color: #1e1e1e;
   color: #d4d4d4;
   caret-color: #d4d4d4;
 
@@ -164,9 +164,9 @@ h1 {
   background-color: #404040;
   left: 0;
   top: 0;
-  border-right: 1px solid #6B6B6B;
+  border-right: 1px solid #6b6b6b;
   padding: 8px;
-  color: #A6A6A6;
+  color: #a6a6a6;
   white-space: pre-wrap;
   text-align: right;
   min-width: 25px;
@@ -183,7 +183,7 @@ h1 {
 }
 
 .editor-tokenComment {
-  color: #6A9955;
+  color: #6a9955;
 }
 
 .editor-tokenPunctuation {
