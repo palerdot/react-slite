@@ -29,3 +29,16 @@ function Slite({ initialValue, onChange, readOnly, children }: SliteProps) {
 }
 
 export default Slite
+
+// helper function to insert soft line breaks in markdown to preserve new line/paragraph
+// adds a trailing slash -> 'LINE_BREAK_FIX' transformer
+export function insertSoftLineBreaks(input: string): string {
+  const NEW_LINE = '\n\n'
+  const SOFT_BREAK = '\n\\\n'
+  return input.split(NEW_LINE).join(SOFT_BREAK)
+}
+
+// remove trailing slash from the exported markdown
+export function removeSoftLineBreaks(input: string): string {
+  return input.split('\\\n').join('\n')
+}
