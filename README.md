@@ -21,7 +21,7 @@ function SliteWrapper({ initialValue, onChange, readOnly }: SliteProps) {
       {/* decide if and how you want to display the toolbar */}
       {!readOnly && <Toolbar />}
       {/* editor text area */}
-      <Editor />
+      <Editor readOnly={readOnly} />
     </Slite>
   )
 }

@@ -12,7 +12,7 @@ function SliteWrapper({ initialValue, onChange, readOnly }: SliteProps) {
   return (
     <Slite initialValue={initialValue} onChange={onChange} readOnly={readOnly}>
       {!readOnly && <Toolbar />}
-      <Editor />
+      <Editor readOnly={readOnly} />
     </Slite>
   )
 }

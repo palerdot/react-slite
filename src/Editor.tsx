@@ -117,12 +117,12 @@ const getInitialConfig = (
   }
 }
 
-export function Editor() {
+export function Editor({ readOnly }: { readOnly: SliteProps['readOnly'] }) {
   return (
     <div className="editor-inner">
       <RichTextPlugin
         contentEditable={<ContentEditable className="editor-input" />}
-        placeholder={<Placeholder />}
+        placeholder={readOnly ? null : <Placeholder />}
         ErrorBoundary={LexicalErrorBoundary}
       />
       <AutoFocusPlugin />
@@ -131,6 +131,10 @@ export function Editor() {
       <ListMaxIndentLevelPlugin maxDepth={1} />
     </div>
   )
+}
+
+Editor.defaultProps = {
+  readOnly: false,
 }
 
 export default function LexicalWrapper({
