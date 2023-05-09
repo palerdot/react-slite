@@ -1,5 +1,9 @@
 # `react-slite`
 
+## `0.2.4`
+- Fixes for handling soft breaks
+- example storybook simulating remindoro input
+
 ## `0.2.3`
 - Utils for handling soft breaks
 - `readOnly` prop for Editor component
