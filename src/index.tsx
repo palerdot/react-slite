@@ -62,7 +62,7 @@ export function insertSoftLineBreaks(input: string): string {
       isActiveCodeBlock = false
     }
 
-    if (isBlockQuote(s)) {
+    if (isBlockQuote(s.trim())) {
       mapped.push(NEW_LINE)
     } else if (isActiveCodeBlock) {
       mapped.push(NEW_LINE)
@@ -84,12 +84,12 @@ export function removeSoftLineBreaks(input: string): string {
     if (
       !s.startsWith(DOUBLE_LINE) &&
       !s.endsWith(DOUBLE_LINE) &&
-      // we will touch the lines with code block
+      // and if it has a double line in between text nodes we will convert it
+      s.includes(DOUBLE_LINE) &&
+      // we will not touch the lines with code block
       !s.includes('```') &&
       // we will not touch block quote
-      !s.includes('> ') &&
-      // and if it has a double line in between text nodes we will convert it
-      s.includes(DOUBLE_LINE)
+      !s.includes('> ')
     ) {
       return s.replaceAll(DOUBLE_LINE, '\n')
     }

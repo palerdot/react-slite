@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import type { Meta, StoryObj } from '@storybook/react'
 
 import Slite, {
@@ -19,17 +19,17 @@ function SliteWrapper({ initialValue, onChange, readOnly }: SliteProps) {
 }
 
 // ref: https://storybook.js.org/docs/react/writing-stories/introduction
-const meta: Meta<typeof Porumai> = {
+const meta: Meta<typeof Remindoro> = {
   /* 👇 The title prop is optional.
    * See https://storybook.js.org/docs/react/configure/overview#configure-story-loading
    * to learn how to generate automatic titles
    */
-  title: 'Porumai',
-  component: Porumai,
+  title: 'Remindoro',
+  component: Remindoro,
 }
 
 // test playground story
-function Porumai() {
+function Remindoro() {
   const [isLive, setLive] = useState(false)
   const [content, setContent] = useState('')
 
@@ -71,9 +71,9 @@ function Porumai() {
 }
 
 export default meta
-type Story = StoryObj<typeof Porumai>
+type Story = StoryObj<typeof Remindoro>
 
 export const Default: Story = {
-  name: 'Porumai',
+  name: 'Remindoro',
   args: {},
 }
