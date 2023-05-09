@@ -1,5 +1,8 @@
 # `react-slite`
 
+## `0.2.5`
+- No soft break hacks and util exports (for now)
+
 ## `0.2.4`
 - Fixes for handling soft breaks
 - example storybook simulating remindoro input
