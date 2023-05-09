@@ -1,13 +1,7 @@
 import { useState } from 'react'
 import type { Meta, StoryObj } from '@storybook/react'
 
-import Slite, {
-  insertSoftLineBreaks,
-  removeSoftLineBreaks,
-  Toolbar,
-  Editor,
-  SliteProps,
-} from '../index'
+import Slite, { Toolbar, Editor, SliteProps } from '../index'
 
 function SliteWrapper({ initialValue, onChange, readOnly }: SliteProps) {
   return (
@@ -49,8 +43,8 @@ function Remindoro() {
       <div>
         {isLive ? (
           <SliteWrapper
-            initialValue={insertSoftLineBreaks(content)}
-            onChange={c => setContent(removeSoftLineBreaks(c))}
+            initialValue={content}
+            onChange={c => setContent(c)}
             readOnly={false}
           >
             {null}

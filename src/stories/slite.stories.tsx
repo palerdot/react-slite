@@ -1,12 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
-import Slite, {
-  insertSoftLineBreaks,
-  removeSoftLineBreaks,
-  Toolbar,
-  Editor,
-  SliteProps,
-} from '../index'
+import Slite, { Toolbar, Editor, SliteProps } from '../index'
 
 function SliteWrapper({ initialValue, onChange, readOnly }: SliteProps) {
   return (
@@ -60,10 +54,9 @@ and a line after a break
 export const InitialText: Story = {
   name: 'Slite with initial text',
   args: {
-    initialValue: insertSoftLineBreaks(initialValue),
-    // initialValue: initialValue2,
+    initialValue: initialValue,
     onChange: changed => {
-      console.log(removeSoftLineBreaks(changed))
+      console.log(changed)
     },
   },
 }

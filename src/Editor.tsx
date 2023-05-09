@@ -15,15 +15,8 @@ import {
   $convertFromMarkdownString,
   $convertToMarkdownString,
   TRANSFORMERS,
-  TextMatchTransformer,
 } from '@lexical/markdown'
-import {
-  $createParagraphNode,
-  $getRoot,
-  $isLineBreakNode,
-  LineBreakNode,
-  $createTextNode,
-} from 'lexical'
+import { $createParagraphNode, $getRoot } from 'lexical'
 
 import ToolbarPlugin from './plugins/ToolbarPlugin'
 import ListMaxIndentLevelPlugin from './plugins/ListMaxIndentLevelPlugin'
@@ -34,24 +27,6 @@ import DefaultTheme, {
 
 import type { EditorState } from 'lexical'
 import type { InitialConfigType } from '@lexical/react/LexicalComposer'
-
-const LINE_BREAK_FIX: TextMatchTransformer = {
-  dependencies: [LineBreakNode],
-  export: node => {
-    if (!$isLineBreakNode(node)) return null
-    return '\\\n'
-  },
-  regExp: /\\$/,
-  importRegExp: /\\$/,
-  replace: (textNode, _match) => {
-    if (!textNode?.getParent()) return
-    textNode.replace($createTextNode())
-  },
-  trigger: '',
-  type: 'text-match',
-}
-
-export const SLITE_TRANSFORMERS = [...TRANSFORMERS, LINE_BREAK_FIX]
 
 export interface SliteProps {
   initialValue?: string
@@ -70,7 +45,7 @@ const onChangeHandler = (
   onChange: SliteProps['onChange']
 ) => {
   editorState.read(() => {
-    const markdown = $convertToMarkdownString(SLITE_TRANSFORMERS)
+    const markdown = $convertToMarkdownString(TRANSFORMERS)
     onChange(markdown)
   })
 }
@@ -88,7 +63,7 @@ const getInitialConfig = (
         $getRoot().append(paragraph)
         paragraph.select()
       } else {
-        $convertFromMarkdownString(initialValue, SLITE_TRANSFORMERS)
+        $convertFromMarkdownString(initialValue, TRANSFORMERS)
       }
     },
     // The editor theme
@@ -154,9 +129,7 @@ export default function LexicalWrapper({
             onChange={editorState => onChangeHandler(editorState, onChange)}
           />
         )}
-        {editable && (
-          <MarkdownShortcutPlugin transformers={SLITE_TRANSFORMERS} />
-        )}
+        {editable && <MarkdownShortcutPlugin transformers={TRANSFORMERS} />}
         {children}
       </div>
     </LexicalComposer>
