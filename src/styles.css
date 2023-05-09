@@ -150,8 +150,8 @@ h1 {
   line-height: 1.53;
   font-size: 13px;
   margin: 0;
-  margin-top: 8px;
-  margin-bottom: 8px;
+  margin-top: 16px;
+  margin-bottom: 16px;
   tab-size: 2;
   /* white-space: pre; */
   overflow-x: auto;
@@ -250,6 +250,8 @@ h1 {
 .editor-quote {
   margin: 0;
   margin-left: 20px;
+  margin-top: 16px;
+  margin-bottom: 16px;
   font-size: 15px;
   color: rgb(101, 103, 107);
   border-left-color: rgb(206, 208, 212);

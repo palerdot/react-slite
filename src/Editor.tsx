@@ -43,7 +43,7 @@ const LINE_BREAK_FIX: TextMatchTransformer = {
   },
   regExp: /\\$/,
   importRegExp: /\\$/,
-  replace: textNode => {
+  replace: (textNode, _match) => {
     if (!textNode?.getParent()) return
     textNode.replace($createTextNode())
   },
@@ -110,7 +110,6 @@ const getInitialConfig = (
       TableRowNode,
       AutoLinkNode,
       LinkNode,
-      LineBreakNode,
     ],
     namespace: '',
     editable,
