@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
-import Slite, { Toolbar, Editor, SliteProps } from '../index'
+import Slite, { Toolbar, Editor, type SliteProps } from '../index'
 
 function SliteWrapper({ initialValue, onChange, readOnly }: SliteProps) {
   return (

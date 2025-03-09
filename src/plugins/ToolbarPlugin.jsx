@@ -271,9 +271,10 @@ function getSelectedNode(selection) {
   const isBackward = selection.isBackward()
   if (isBackward) {
     return $isAtNodeEnd(focus) ? anchorNode : focusNode
-  } else {
-    return $isAtNodeEnd(anchor) ? focusNode : anchorNode
   }
+  // else {
+  //   return $isAtNodeEnd(anchor) ? focusNode : anchorNode
+  // }
 }
 
 function BlockOptionsDropdownList({
@@ -293,7 +294,7 @@ function BlockOptionsDropdownList({
       dropDown.style.top = `${top + 40}px`
       dropDown.style.left = `${left}px`
     }
-  }, [dropDownRef, toolbarRef])
+  }, [toolbarRef])
 
   useEffect(() => {
     const dropDown = dropDownRef.current
@@ -313,7 +314,7 @@ function BlockOptionsDropdownList({
         document.removeEventListener('click', handle)
       }
     }
-  }, [dropDownRef, setShowBlockOptionsDropDown, toolbarRef])
+  }, [setShowBlockOptionsDropDown, toolbarRef])
 
   const formatParagraph = () => {
     if (blockType !== 'paragraph') {
@@ -414,7 +415,7 @@ function BlockOptionsDropdownList({
   return (
     <div className={SLITE_DROPDOWN_CLASS} ref={dropDownRef}>
       {/* Paragraph */}
-      <button className="item" onClick={formatParagraph}>
+      <button type="button" className="item" onClick={formatParagraph}>
         <span className="icon paragraph">
           <ParagraphIcon />
         </span>
@@ -422,7 +423,7 @@ function BlockOptionsDropdownList({
         {blockType === 'paragraph' && <span className="active" />}
       </button>
       {/* H1: Large Heading */}
-      <button className="item" onClick={formatLargeHeading}>
+      <button type="button" className="item" onClick={formatLargeHeading}>
         <span className="icon large-heading">
           <HeadingOneIcon />
         </span>
@@ -430,7 +431,7 @@ function BlockOptionsDropdownList({
         {blockType === 'h1' && <span className="active" />}
       </button>
       {/* H2: Medium Heading */}
-      <button className="item" onClick={formatMediumHeading}>
+      <button type="button" className="item" onClick={formatMediumHeading}>
         <span className="icon medium-heading">
           <HeadingTwoIcon />
         </span>
@@ -438,35 +439,35 @@ function BlockOptionsDropdownList({
         {blockType === 'h2' && <span className="active" />}
       </button>
       {/* H3: Small Heading */}
-      <button className="item" onClick={formatSmallHeading}>
+      <button type="button" className="item" onClick={formatSmallHeading}>
         <span className="icon small-heading">
           <HeadingThreeIcon />
         </span>
         <span className="text">Small Heading</span>
         {blockType === 'h3' && <span className="active" />}
       </button>
-      <button className="item" onClick={formatBulletList}>
+      <button type="button" className="item" onClick={formatBulletList}>
         <span className="icon bullet-list">
           <BulletListIcon />
         </span>
         <span className="text">Bullet List</span>
         {blockType === 'ul' && <span className="active" />}
       </button>
-      <button className="item" onClick={formatNumberedList}>
+      <button type="button" className="item" onClick={formatNumberedList}>
         <span className="icon numbered-list">
           <NumberedListIcon />
         </span>
         <span className="text">Numbered List</span>
         {blockType === 'ol' && <span className="active" />}
       </button>
-      <button className="item" onClick={formatQuote}>
+      <button type="button" className="item" onClick={formatQuote}>
         <span className="icon quote">
           <QuoteIcon />
         </span>
         <span className="text">Quote</span>
         {blockType === 'quote' && <span className="active" />}
       </button>
-      <button className="item" onClick={formatCode}>
+      <button type="button" className="item" onClick={formatCode}>
         <span className="icon code">
           <CodeIcon />
         </span>
@@ -623,13 +624,14 @@ export default function ToolbarPlugin() {
       {supportedBlockTypes.has(blockType) && (
         <>
           <button
+            type="button"
             className="toolbar-item block-controls"
             onClick={() =>
               setShowBlockOptionsDropDown(!showBlockOptionsDropDown)
             }
             aria-label="Formatting Options"
           >
-            <span className={'icon block-type ' + blockType}>
+            <span className={`icon block-type ${blockType}`}>
               {getBlockTypeIcon(blockType)}
             </span>
             <span className="text">{blockTypeToBlockName[blockType]}</span>
@@ -665,10 +667,11 @@ export default function ToolbarPlugin() {
       ) : (
         <>
           <button
+            type="button"
             onClick={() => {
               editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'bold')
             }}
-            className={'toolbar-item spaced ' + (isBold ? 'active' : '')}
+            className={`toolbar-item spaced ${isBold ? 'active' : ''}`}
             aria-label="Format Bold"
           >
             <i className="format bold">
@@ -676,10 +679,11 @@ export default function ToolbarPlugin() {
             </i>
           </button>
           <button
+            type="button"
             onClick={() => {
               editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'italic')
             }}
-            className={'toolbar-item spaced ' + (isItalic ? 'active' : '')}
+            className={`toolbar-item spaced ${isItalic ? 'active' : ''}`}
             aria-label="Format Italics"
           >
             <i className="format italic">
@@ -687,10 +691,11 @@ export default function ToolbarPlugin() {
             </i>
           </button>
           <button
+            type="button"
             onClick={() => {
               editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'underline')
             }}
-            className={'toolbar-item spaced ' + (isUnderline ? 'active' : '')}
+            className={`toolbar-item spaced ${isUnderline ? 'active' : ''}`}
             aria-label="Format Underline"
           >
             <i className="format underline">
@@ -698,12 +703,11 @@ export default function ToolbarPlugin() {
             </i>
           </button>
           <button
+            type="button"
             onClick={() => {
               editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'strikethrough')
             }}
-            className={
-              'toolbar-item spaced ' + (isStrikethrough ? 'active' : '')
-            }
+            className={`toolbar-item spaced ${isStrikethrough ? 'active' : ''}`}
             aria-label="Format Strikethrough"
           >
             <i className="format strikethrough">
@@ -711,10 +715,11 @@ export default function ToolbarPlugin() {
             </i>
           </button>
           <button
+            type="button"
             onClick={() => {
               editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'code')
             }}
-            className={'toolbar-item spaced ' + (isCode ? 'active' : '')}
+            className={`toolbar-item spaced ${isCode ? 'active' : ''}`}
             aria-label="Insert Code"
           >
             <i className="format code">

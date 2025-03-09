@@ -25,13 +25,14 @@
     "start": "vite",
     "build": "tsc && vite build",
     "test": "vitest",
-    "lint": "prettier --list-different src test",
+    "lint": "biome check src/ test/",
     "lint:fix": "prettier --write src test",
     "prepare": "pnpm build",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
   "devDependencies": {
+    "@biomejs/biome": "1.9.4",
     "@chromatic-com/storybook": "^3.2.5",
     "@size-limit/preset-small-lib": "^11.2.0",
     "@storybook/addon-essentials": "^8.6.4",
