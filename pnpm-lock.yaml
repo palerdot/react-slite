@@ -87,9 +87,6 @@ importers:
       husky:
         specifier: ^9.1.7
         version: 9.1.7
-      prettier:
-        specifier: ^3.5.3
-        version: 3.5.3
       prop-types:
         specifier: ^15.8.1
         version: 15.8.1
@@ -4070,7 +4067,8 @@ snapshots:
       picocolors: 1.1.1
       source-map-js: 1.2.1
 
-  prettier@3.5.3: {}
+  prettier@3.5.3:
+    optional: true
 
   pretty-format@27.5.1:
     dependencies:
