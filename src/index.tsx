@@ -1,4 +1,8 @@
-import LexicalWrapper, { SliteProps, Editor, ToolbarPlugin } from './Editor'
+import LexicalWrapper, {
+  type SliteProps,
+  Editor,
+  ToolbarPlugin,
+} from './Editor'
 import './styles.css'
 
 import ThemeClassList, {

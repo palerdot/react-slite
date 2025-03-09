@@ -21,7 +21,7 @@ function insertSoftLineBreaks(input: string): string {
 
   let isActiveCodeBlock = false
 
-  splitted.forEach(s => {
+  for (const s of splitted) {
     mapped.push(s)
 
     if (isCodeBlockStart(s)) {
@@ -38,7 +38,7 @@ function insertSoftLineBreaks(input: string): string {
     } else {
       mapped.push(SOFT_BREAK)
     }
-  })
+  }
 
   return mapped.join('')
 }

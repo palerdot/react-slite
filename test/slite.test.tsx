@@ -6,7 +6,7 @@ import Slite, { Editor } from '../src/'
 
 function DefaultSlite() {
   return (
-    <Slite initialValue={``} onChange={() => {}}>
+    <Slite initialValue={''} onChange={() => {}}>
       <Editor />
     </Slite>
   )
