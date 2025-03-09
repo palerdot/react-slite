@@ -1,5 +1,8 @@
 # `react-slite`
 
+## `0.3.1`
+- Externalize `react/jsx-runtime` and `react-dom/client`
+
 ## `0.3.0`
 - Lexical `v0.27.1`
 - biome
