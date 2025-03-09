@@ -1,5 +1,10 @@
 # `react-slite`
 
+## `0.3.0`
+- Lexical `v0.27.1`
+- biome
+- storybook v8
+
 ## `0.2.5`
 - No soft break hacks and util exports (for now)
 
