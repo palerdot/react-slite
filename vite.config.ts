@@ -23,9 +23,9 @@ export default defineConfig({
       fileName: format => `react-slite.${format}.js`,
     },
     rollupOptions: {
-      // make sure to externalize deps that shouldn't be bundled
-      // into your library
-      external: ['react', 'react-dom'],
+      // make sure to externalize deps that shouldn't be bundled into your library
+      // ref: https://stackoverflow.com/questions/76135802/how-do-i-make-my-react-package-use-an-external-jsx-runtime
+      external: ['react', 'react-dom', 'react-dom/client', 'react/jsx-runtime' ],
       output: {
         // Provide global variables to use in the UMD build
         // for externalized deps
