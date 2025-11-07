@@ -11,7 +11,8 @@
     "dist"
   ],
   "engines": {
-    "node": ">=14"
+    "node": ">=20",
+    "pnpm": ">=10"
   },
   "peerDependencies": {
     "react": ">=18"
