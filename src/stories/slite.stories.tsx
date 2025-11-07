@@ -1,10 +1,23 @@
+import { useState, useCallback } from 'react'
 import type { Meta, StoryObj } from '@storybook/react-vite'
 
 import Slite, { Toolbar, Editor, type SliteProps } from '../index'
 
 function SliteWrapper({ initialValue, onChange, readOnly }: SliteProps) {
+  const [note, setNote] = useState(initialValue)
+
+  const onSave = useCallback(
+    (value: string) => {
+      setNote(value)
+      setTimeout(() => {
+        onChange(value)
+      }, 314)
+    },
+    [onChange]
+  )
+
   return (
-    <Slite initialValue={initialValue} onChange={onChange} readOnly={readOnly}>
+    <Slite initialValue={note} onChange={onSave} readOnly={readOnly}>
       {!readOnly && <Toolbar />}
       <Editor readOnly={readOnly} />
     </Slite>

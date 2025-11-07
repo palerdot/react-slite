@@ -1,3 +1,4 @@
+import { useState, useMemo } from 'react'
 import { defineExtension, configExtension } from 'lexical'
 
 import { RichTextExtension } from '@lexical/rich-text'
@@ -96,7 +97,9 @@ const getExtensionConfig = (initialValue: string, editable: boolean) => {
   return appExtension
 }
 
-export function Editor({ readOnly }: { readOnly: SliteProps['readOnly'] }) {
+export function Editor({
+  readOnly = false,
+}: { readOnly: SliteProps['readOnly'] }) {
   const placeholderText = 'Enter some rich text...'
   return (
     <div className="editor-inner">
@@ -114,23 +117,21 @@ export function Editor({ readOnly }: { readOnly: SliteProps['readOnly'] }) {
   )
 }
 
-Editor.defaultProps = {
-  readOnly: false,
-}
-
 export default function LexicalWrapper({
   initialValue,
   onChange,
   readOnly,
   children,
 }: SliteProps) {
+  const [initialNoteValue] = useState(initialValue) // freeze the initial value to prevent rerenders
   const editable = !readOnly
 
+  const extension = useMemo(() => {
+    return getExtensionConfig(initialNoteValue || '', editable)
+  }, [initialNoteValue, editable])
+
   return (
-    <LexicalExtensionComposer
-      extension={getExtensionConfig(initialValue || '', editable)}
-      contentEditable={null}
-    >
+    <LexicalExtensionComposer extension={extension} contentEditable={null}>
       <div className={SLITE_EDITOR_CONTAINER_CLASS}>
         {editable && (
           <OnChangePlugin
