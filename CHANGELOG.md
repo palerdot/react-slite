@@ -1,6 +1,10 @@
 # `react-slite`
 
-## `0.4.0`
+## `0.4.1`
+
+- Migrate to Lexical extensions. (Fix editor errors in `0.4`)
+
+## `0.4.0` (Buggy version)
 
 Mostly package upgrades
 - lexical: `v0.38.x`
