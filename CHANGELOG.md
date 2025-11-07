@@ -1,5 +1,12 @@
 # `react-slite`
 
+## `0.4.0`
+
+Mostly package upgrades
+- lexical: `v0.38.x`
+- storybook: `v10.x`
+- vite: `v7.x`
+
 ## `0.3.1`
 - Externalize `react/jsx-runtime` and `react-dom/client`
 

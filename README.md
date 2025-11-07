@@ -6,6 +6,8 @@ This react component **aims** to provide a slack like rich text editing experien
 
 NOTE: Starting `v0.2.0`, `react-slite` is powered by [lexical](https://github.com/facebook/lexical). Right now, it is just a thin wrapper around vanilla lexical functionality. As lexical becomes more stable and moves towards `v1.x`, this library will become more feature complete. Till then, apis are subject to change.
 
+**IMPORTANT:** Please pin your package version in your project to avoid breaking changes in `v0.x` version
+
 ### Usage
 
 ```javascript
