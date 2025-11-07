@@ -3,6 +3,15 @@ import type { Meta, StoryObj } from '@storybook/react-vite'
 
 import Slite, { Toolbar, Editor, type SliteProps } from '../index'
 
+// Debugging production build (kind of worked without problems)
+/*
+import Slite, {
+  Toolbar,
+  Editor,
+  type SliteProps,
+} from '../../dist/react-slite.es'
+*/
+
 function SliteWrapper({ initialValue, onChange, readOnly }: SliteProps) {
   return (
     <Slite initialValue={initialValue} onChange={onChange} readOnly={readOnly}>
