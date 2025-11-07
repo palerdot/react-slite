@@ -16,7 +16,7 @@ import {
 // import { $isLinkNode, TOGGLE_LINK_COMMAND } from '@lexical/link'
 import {
   $isParentElementRTL,
-  $wrapNodes,
+  $setBlocksType as $wrapNodes, // ref: https://github.com/facebook/lexical/discussions/5600
   $isAtNodeEnd,
 } from '@lexical/selection'
 import { $getNearestNodeOfType, mergeRegister } from '@lexical/utils'
@@ -51,7 +51,7 @@ import {
   CodeIcon,
   BoldIcon,
   UnderlineIcon,
-  StrikeThroughIcon,
+  // StrikeThroughIcon,
   ItalicIcon,
   TextLeftIcon,
   TextCenterIcon,
@@ -493,53 +493,19 @@ export default function ToolbarPlugin() {
   const [isBold, setIsBold] = useState(false)
   const [isItalic, setIsItalic] = useState(false)
   const [isUnderline, setIsUnderline] = useState(false)
-  const [isStrikethrough, setIsStrikethrough] = useState(false)
+  // const [isStrikethrough, setIsStrikethrough] = useState(false)
   const [isCode, setIsCode] = useState(false)
 
   const updateToolbar = useCallback(() => {
     const selection = $getSelection()
     if ($isRangeSelection(selection)) {
-      const anchorNode = selection.anchor.getNode()
-      const element =
-        anchorNode.getKey() === 'root'
-          ? anchorNode
-          : anchorNode.getTopLevelElementOrThrow()
-      const elementKey = element.getKey()
-      const elementDOM = editor.getElementByKey(elementKey)
-      if (elementDOM !== null) {
-        setSelectedElementKey(elementKey)
-        if ($isListNode(element)) {
-          const parentList = $getNearestNodeOfType(anchorNode, ListNode)
-          const type = parentList ? parentList.getTag() : element.getTag()
-          setBlockType(type)
-        } else {
-          const type = $isHeadingNode(element)
-            ? element.getTag()
-            : element.getType()
-          setBlockType(type)
-          if ($isCodeNode(element)) {
-            setCodeLanguage(element.getLanguage() || getDefaultCodeLanguage())
-          }
-        }
-      }
       // Update text format
       setIsBold(selection.hasFormat('bold'))
       setIsItalic(selection.hasFormat('italic'))
       setIsUnderline(selection.hasFormat('underline'))
-      setIsStrikethrough(selection.hasFormat('strikethrough'))
       setIsCode(selection.hasFormat('code'))
-      setIsRTL($isParentElementRTL(selection))
-
-      // Update links
-      // const node = getSelectedNode(selection)
-      // const parent = node.getParent()
-      // if ($isLinkNode(parent) || $isLinkNode(node)) {
-      //   setIsLink(true)
-      // } else {
-      //   setIsLink(false)
-      // }
     }
-  }, [editor])
+  }, [])
 
   useEffect(() => {
     return mergeRegister(
@@ -702,18 +668,18 @@ export default function ToolbarPlugin() {
               <UnderlineIcon />
             </i>
           </button>
-          <button
-            type="button"
-            onClick={() => {
-              editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'strikethrough')
-            }}
-            className={`toolbar-item spaced ${isStrikethrough ? 'active' : ''}`}
-            aria-label="Format Strikethrough"
-          >
-            <i className="format strikethrough">
-              <StrikeThroughIcon />
-            </i>
-          </button>
+          {/* <button */}
+          {/*   type="button" */}
+          {/*   onClick={() => { */}
+          {/*     editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'strikethrough') */}
+          {/*   }} */}
+          {/*   className={`toolbar-item spaced ${isStrikethrough ? 'active' : ''}`} */}
+          {/*   aria-label="Format Strikethrough" */}
+          {/* > */}
+          {/*   <i className="format strikethrough"> */}
+          {/*     <StrikeThroughIcon /> */}
+          {/*   </i> */}
+          {/* </button> */}
           <button
             type="button"
             onClick={() => {

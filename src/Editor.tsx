@@ -1,13 +1,16 @@
-import { LexicalComposer } from '@lexical/react/LexicalComposer'
+import { defineExtension, configExtension } from 'lexical'
+
+import { RichTextExtension } from '@lexical/rich-text'
+import { AutoFocusExtension } from '@lexical/extension'
+import { ListExtension } from '@lexical/list'
+import { LexicalExtensionComposer } from '@lexical/react/LexicalExtensionComposer'
+import { ReactExtension } from '@lexical/react/ReactExtension'
+
 import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin'
-import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin'
 import { ContentEditable } from '@lexical/react/LexicalContentEditable'
-import { AutoFocusPlugin } from '@lexical/react/LexicalAutoFocusPlugin'
-import { LexicalErrorBoundary } from '@lexical/react/LexicalErrorBoundary'
 import { HeadingNode, QuoteNode } from '@lexical/rich-text'
 import { ListItemNode, ListNode } from '@lexical/list'
 import { CodeHighlightNode, CodeNode } from '@lexical/code'
-import { ListPlugin } from '@lexical/react/LexicalListPlugin'
 import { TableCellNode, TableNode, TableRowNode } from '@lexical/table'
 import { AutoLinkNode, LinkNode } from '@lexical/link'
 import { MarkdownShortcutPlugin } from '@lexical/react/LexicalMarkdownShortcutPlugin'
@@ -26,17 +29,12 @@ import DefaultTheme, {
 } from './themes/DefaultTheme'
 
 import type { EditorState } from 'lexical'
-import type { InitialConfigType } from '@lexical/react/LexicalComposer'
 
 export interface SliteProps {
   initialValue?: string
   onChange: (text: string) => void
   readOnly?: boolean
   children: React.ReactNode
-}
-
-function Placeholder() {
-  return <div className="editor-placeholder">{'Enter some rich text ...'}</div>
 }
 
 // ref: https://stackoverflow.com/questions/71976652/with-lexical-how-do-i-set-default-initial-text
@@ -50,12 +48,17 @@ const onChangeHandler = (
   })
 }
 
-const getInitialConfig = (
-  initialValue: string,
-  editable: boolean
-): InitialConfigType => {
-  return {
-    editorState: () => {
+const getExtensionConfig = (initialValue: string, editable: boolean) => {
+  const appExtension = defineExtension({
+    name: 'ReactSlite',
+    namespace: 'ReactSlite',
+    dependencies: [
+      AutoFocusExtension,
+      RichTextExtension,
+      ListExtension,
+      configExtension(ReactExtension, { contentEditable: null }),
+    ],
+    $initialEditorState: () => {
       // ref: https://stackoverflow.com/a/72172529/1410291
       // ref: https://github.com/facebook/lexical/issues/2308#issuecomment-1382721253
       if (initialValue === '') {
@@ -86,22 +89,26 @@ const getInitialConfig = (
       AutoLinkNode,
       LinkNode,
     ],
-    namespace: '',
     editable,
-  }
+  })
+
+  // ref: https://lexical.dev/docs/extensions/react
+  return appExtension
 }
 
 export function Editor({ readOnly }: { readOnly: SliteProps['readOnly'] }) {
+  const placeholderText = 'Enter some rich text...'
   return (
     <div className="editor-inner">
-      <RichTextPlugin
-        contentEditable={<ContentEditable className="editor-input" />}
-        placeholder={readOnly ? null : <Placeholder />}
-        ErrorBoundary={LexicalErrorBoundary}
+      <ContentEditable
+        readOnly={readOnly}
+        className="editor-input"
+        aria-placeholder={placeholderText}
+        placeholder={
+          <div className="editor-placeholder">{placeholderText}</div>
+        }
       />
-      <AutoFocusPlugin />
       <CodeHighlightPlugin />
-      <ListPlugin />
       <ListMaxIndentLevelPlugin maxDepth={1} />
     </div>
   )
@@ -120,8 +127,9 @@ export default function LexicalWrapper({
   const editable = !readOnly
 
   return (
-    <LexicalComposer
-      initialConfig={getInitialConfig(initialValue || '', editable)}
+    <LexicalExtensionComposer
+      extension={getExtensionConfig(initialValue || '', editable)}
+      contentEditable={null}
     >
       <div className={SLITE_EDITOR_CONTAINER_CLASS}>
         {editable && (
@@ -132,7 +140,7 @@ export default function LexicalWrapper({
         {editable && <MarkdownShortcutPlugin transformers={TRANSFORMERS} />}
         {children}
       </div>
-    </LexicalComposer>
+    </LexicalExtensionComposer>
   )
 }
 
