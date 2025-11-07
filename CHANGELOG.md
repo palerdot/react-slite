@@ -1,5 +1,9 @@
 # `react-slite`
 
+## `0.4.2`
+
+- Fix: prevent re-renders on initial note value change
+
 ## `0.4.1`
 
 - Migrate to Lexical extensions. (Fix editor errors in `0.4`)
